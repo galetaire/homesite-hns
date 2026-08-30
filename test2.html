@@ -30,65 +30,127 @@
   <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
 </div>
 <br>
-<canvas id="ipvvr" width="800" height="400"></canvas>
+<canvas id="housecombined"></canvas>
+<script src="housecombined.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <script>
-function makeChart(ipvvr) {
-  // Register the plugin
-  Chart.register(ChartDataLabels);
-  var rangeStart = 95;
-  var rangeEnd = new Date().getFullYear() - 1899;
-  var rangeLabels = ipvvr.map(function(d) { return d.Year }).slice(rangeStart, rangeEnd);
-  var rangeOne = ipvvr.map(function(d) { return d.Loan_to_value}).slice(rangeStart, rangeEnd);
+// makeChart: one chart, three y-axes, colour-coded to their lines.
+//   Left axis           : Euros (€) + US dollars ($)   — linear
+//   Right axis (inner)  : ounces of gold (Au)          — linear
+//   Right axis (outer)  : bitcoin (₿)                  — LOGARITHMIC, from 2010
+// Bitcoin runs on its own log axis (~1,660,000 ₿ in 2010 down to a few ₿ today),
+// while the other three series stay on clean linear axes. Each line is read
+// against the axis drawn in its own colour.
+function makeChart(rows) {
+  var rangeStart = 85;                               // index 85 == year 1985
+  var rangeEnd = new Date().getFullYear() - 1899;    // up to and including the current year
+  var btcFromYear = 2010;                            // bitcoin shown from here (has its own log axis)
+
+  // Colours (shared with the axes so each scale matches its line)
+  var C_EUR  = 'rgba(68, 114, 196, 1)';
+  var C_USD  = 'rgba(102, 158, 64, 1)';
+  var C_GOLD = 'rgba(232, 181, 10, 1)';
+  var C_BTC  = 'rgba(255, 153, 0, 1)';
+
+  function num(v) { var n = parseFloat(v); return isFinite(n) ? n : null; }
+  function priceEur(d) { var p = num(d.Price_eum2); return p === null ? null : p * 100; }
+  function priceIn(d, rateKey) {
+    var eur = priceEur(d), rate = num(d[rateKey]);
+    return (eur === null || rate === null || rate === 0) ? null : eur / rate;
+  }
+  function priceBtc(d) {
+    var y = num(d.Year);
+    return (y === null || y < btcFromYear) ? null : priceIn(d, 'BTCEUR_year_ave');
+  }
+
+  var rangeLabels = rows.map(function(d) { return d.Year; }).slice(rangeStart, rangeEnd);
+  var seriesEur   = rows.map(function(d) { return priceEur(d); }).slice(rangeStart, rangeEnd);
+  var seriesUsd   = rows.map(function(d) { return priceIn(d, 'EURUSD_year_ave'); }).slice(rangeStart, rangeEnd);
+  var seriesGold  = rows.map(function(d) { return priceIn(d, 'AUEUR_year_ave');  }).slice(rangeStart, rangeEnd);
+  var seriesBtc   = rows.map(function(d) { return priceBtc(d); }).slice(rangeStart, rangeEnd);
+
   Chart.defaults.font.size = 12;
-  var chart = new Chart('ipvvr', {
+
+  function lineStyle(label, data, color, axis) {
+    return {
+      label: label, data: data, yAxisID: axis,
+      backgroundColor: color, borderColor: color,
+      borderWidth: 2, pointStyle: 'rectRounded', pointRadius: 3,
+      fill: false, tension: 0.4, spanGaps: true
+    };
+  }
+
+  var chart = new Chart('housecombined', {
     type: 'line',
     data: {
       labels: rangeLabels,
       datasets: [
-        {
-          label: "Loan to value",
-          data: rangeOne,
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          borderColor: 'rgb(166, 17, 17, 1)',
-          borderWidth: 1,
-          pointStyle: 'circle',
-          pointBorderColor: 'black',
-          pointRadius: 11,
-          fill: false,
-          tension: 0.4
-        }
+        lineStyle("Price in Euros (€)", seriesEur, C_EUR, 'yFiat'),
+        lineStyle("Price in USD ($)",   seriesUsd, C_USD, 'yFiat'),
+        lineStyle("Price in ounces of gold (Au)", seriesGold, C_GOLD, 'yGold'),
+        lineStyle("Price in bitcoin (₿)", seriesBtc, C_BTC, 'yBtc')
       ]
     },
     options: {
+      interaction: { mode: 'index', intersect: false },
+      stacked: false,
       scales: {
         x: {
+          ticks: { maxRotation: 90, minRotation: 90 }
+        },
+        // LEFT: euros + dollars share this one (linear)
+        yFiat: {
+          type: 'linear', position: 'left',
+          min: 0, max: 250000,
+          ticks: { stepSize: 50000, color: '#333' },
+          title: { display: true, text: 'Euros (€) & US dollars ($)', color: '#333' },
+          grid: { drawOnChartArea: true }            // only this axis draws horizontal gridlines
+        },
+        // RIGHT inner: gold (linear)
+        yGold: {
+          type: 'linear', position: 'right',
+          min: 0, max: 450,
+          ticks: { stepSize: 90, color: C_GOLD },
+          title: { display: true, text: 'Ounces of gold (Au)', color: C_GOLD },
+          grid: { drawOnChartArea: false },
+          border: { color: C_GOLD }
+        },
+        // RIGHT outer: bitcoin (logarithmic, from 2010)
+        yBtc: {
+          type: 'logarithmic', position: 'right',
+          min: 1, max: 10000000,
           ticks: {
-            maxRotation: 90,
-            minRotation: 90
-          }
+            color: C_BTC,
+            callback: function(value) {
+              if ([1, 10, 100, 1000, 10000, 100000, 1000000, 10000000].includes(value)) {
+                return value.toLocaleString();
+              }
+              return '';
+            }
+          },
+          title: { display: true, text: 'Bitcoin (₿) — log scale', color: C_BTC },
+          grid: { drawOnChartArea: false },
+          border: { color: C_BTC }
         }
       },
       plugins: {
+        datalabels: { display: false },
         tooltip: {
           callbacks: {
-            label: (ctx) => {
-              const label = ctx.dataset.label || '';
-              const value = ctx.parsed.y;
-              return `${label}: ${value != null ? value.toFixed(2) : '—'}`;
+            label: function(ctx) {
+              var label = ctx.dataset.label || '';
+              var value = ctx.parsed.y;
+              if (value === null || value === undefined || isNaN(value)) return label + ': —';
+              if (label === 'Price in bitcoin (₿)') {
+                value = Number(value).toLocaleString(undefined, { maximumFractionDigits: 2 });
+              } else if (label === 'Price in ounces of gold (Au)') {
+                value = Number(value).toLocaleString(undefined, { maximumFractionDigits: 1 });
+              } else {
+                value = Number(value).toLocaleString(undefined, { maximumFractionDigits: 0 });
+              }
+              return label + ': ' + value;
             }
-          }
-        },
-        datalabels: {
-          align: 'center',
-          anchor: 'center',
-          color: 'white',
-          font: {
-            size: 10
-          },
-          formatter: function(value, context) {
-            return Math.round(value);
           }
         }
       }
@@ -96,7 +158,7 @@ function makeChart(ipvvr) {
   });
 }
 
-// Request data from .csv file using D3js library
+// Request data from the .csv file using the D3js library
 d3.csv('https://raw.githubusercontent.com/galetaire/spahousing/main/public/docs/spain_stats_csv.csv')
   .then(makeChart);
 </script>
