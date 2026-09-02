@@ -2,7 +2,7 @@
 
 A brief guide to hosting a website on a self-controlled Handshake top-level domain (TLD). Handshake is an experimental DNS root zone based on a peer-to-peer (P2P) blockchain system.
 
-> **Note:** This guide does not cover how to obtain a HNS domain name, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, as a healthy and valid alternative to ICANN.
+> **Note:** This guide does not cover how to obtain a HNS domain name, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, as a healthy and valid alternative to ICANN DNS.
 
 ## What You Need
 
@@ -20,7 +20,7 @@ Yeil DNS is a service that lets you connect your self-custodied TLD in Bob Walle
 
 ## 3. Connect Your Domain: Bob Wallet <-> Yeil
 
-While your TLD is on Bob Wallet, you need to connect it to Yeil DNS. In your Yeil account, go to **New zone**, type the TLD name you own, and click **Add**. It will appear with the records you need to add to your TLD in Bob Wallet in order to create the connection.
+You need to connect your TLD (in Bob Wallet) to Yeil DNS. In your Yeil account, go to **New zone**, type the TLD name you own, and click **Add**. Once created it will appear the records you need to add to your TLD in Bob Wallet in order to create the connection.
 
 <img src="images/guidetwo.png" alt="My screenshot" width="700">
 
@@ -63,7 +63,7 @@ Because it is not an ICANN domain, GitHub will report that it doesn't work. Even
 
 <img src="images/guidefour.png" alt="My screenshot" width="700">
 
-## 5. Set Your Domain as the Address for Your Site: Yeil <-> GitHub
+## 5. Set Your Domain: Yeil <-> GitHub
 
 Finally, connect Yeil with GitHub. In your Yeil DNS zone, click **New record** for your domain and add an **A** record:
 
@@ -71,15 +71,15 @@ Finally, connect Yeil with GitHub. In your Yeil DNS zone, click **New record** f
 | ---- | --------------- | ------------------------------------------ |
 | A    | `hi.yourdomain` | `185.199.111.153` (a GitHub Pages IP)      |
 
+<img src="images/guidefive.png" alt="My screenshot" width="700">
+
 The record update takes about 6 hours to go live. After that, your site will be online at your domain:
 
 ```
 http://hi.yourdomain/
 ```
-<img src="images/guidefive.png" alt="My screenshot" width="700">
-
 > **Note:** To resolve the Handshake DNS protocol, you will need a resolver, since browsers do not support it natively. Consider using [Fingertip](https://github.com/imperviousinc/fingertip).
 
 ## Done!
 
-Congratulations! The next step is to personalize your website (right now it's just `index.html`) — you can even ask an AI to build a nicer one for you. The low cost of the HNS network lets you host an almost unlimited number of sites for next to nothing.
+The next step is to personalize your website (right now it's just `index.html`) — you can even ask an AI to build a nicer one for you. The low cost of the HNS network lets you host an almost unlimited number of sites for next to nothing.
