@@ -12,17 +12,17 @@ A brief guide to hosting a website on a self-controlled Handshake top-level doma
 
 ## 1. Bob Wallet
 
-You need a domain stored in your personal Bob Wallet. You can bid for domains using Bob, which is both a node and a self-custodial wallet that lets you interact directly with the blockchain.
+You need a TLD stored in your personal Bob Wallet. You can bid for TLDs using Bob, which is both a node and a self-custodial wallet that lets you interact directly with the blockchain.
 
 ## 2. Yeil DNS Account
 
-Yeil DNS is a service that lets you connect your self-custodied domain in Bob Wallet to their DNS nameserver, so you can manage your domain records without losing custody of your name. At any time, you can use Bob Wallet to delete all records associating your domain with Yeil, effectively breaking the connection. Yeil is developed by https://eskimo.software.
+Yeil DNS is a service that lets you connect your self-custodied TLD in Bob Wallet to their DNS nameserver, so you can manage your domain records without losing custody of your TLD. At any time, you can use Bob Wallet to delete all records associating your TLD with Yeil, effectively breaking the connection. Yeil is developed by https://eskimo.software.
 
-## 3. Connect Your Domain: Yeil <-> Bob Wallet
+## 3. Connect Your Domain: Bob Wallet <-> Yeil
 
-With your domain on Bob Wallet, you need to connect it to Yeil DNS. In your Yeil account, go to **New zone**, type the domain name you own, and click **Add**. It will appear with the records you need to add to your domain in Bob Wallet in order to connect it with Yeil.
+While your TLD is on Bob Wallet, you need to connect it to Yeil DNS. In your Yeil account, go to **New zone**, type the TLD name you own, and click **Add**. It will appear with the records you need to add to your TLD in Bob Wallet in order to create the connection.
 
-In Bob Wallet, go to **Domain Manager** and click your domain to open a new screen. In the **Records** section, add the records provided by Yeil:
+In Bob Wallet, go to **Domain Manager** and click your TLD to open a new screen. In the **Records** section, add the records provided by Yeil:
 
 - **2 NS records** — for example, `a.ns.yeil.org` and `b.ns.yeil.org`
 - **1 DS record** — using the value shown in your Yeil account
@@ -41,7 +41,7 @@ In your new repository, click **Add file → Create new file**. Name the file `i
 
 Commit the changes.
 
-Still on GitHub, open the **Settings** tab and scroll down to the **Pages** section. Set the source to the `main` branch and the `/ (root)` folder, then click **Save**. After about 5 minutes, refresh the Pages section — a message at the top will show that your site is live at a URL similar to:
+Still on GitHub, open the **Settings** tab and scroll down to the **Pages** section. Set the source to the `main` branch and the `/ (root)` folder, then click **Save**. After about 5 minutes, refresh the Pages section, a message at the top will show that your site is live at a URL similar to:
 
 ```
 https://youraccount.github.io/yourrepository
@@ -57,7 +57,7 @@ hi.yourdomain
 
 Because it is not an ICANN domain, GitHub will report that it doesn't work. Even though it will always show **"DNS Check in Progress,"** your site will still be online. It takes around 30 minutes to go live.
 
-## 5. Set Your Domain as the Address for Your Site
+## 5. Set Your Domain as the Address for Your Site: Yeil <-> GitHub
 
 Finally, connect Yeil with GitHub. In your Yeil DNS zone, click **New record** for your domain and add an **A** record:
 
