@@ -70,7 +70,7 @@ The record update takes about 6 hours to go live. After that, your site will be 
 ```
 http://hi.yourdomain/
 ```
-<img src="images/guidefive.png" alt="My screenshot" width="400">
+<img src="images/guidefive.png" alt="My screenshot" width="700">
 
 > **Note:** To resolve the Handshake DNS protocol, you will need a resolver, since browsers do not support it natively. Consider using [Fingertip](https://github.com/imperviousinc/fingertip).
 
