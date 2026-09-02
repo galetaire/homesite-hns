@@ -2,27 +2,25 @@
 
 A brief guide to hosting a website on a self-controlled Handshake top-level domain (TLD). Handshake is an experimental DNS root zone based on a peer-to-peer (P2P) blockchain system.
 
-> **Note:** This guide does not cover how to obtain an HNS domain name, and it does not recommend crypto investment. Skepticism around blockchain projects is more often right than wrong — but I consider HNS DNS to be a decent exception: a healthy and valid alternative to ICANN.
+> **Note:** This guide does not cover how to obtain a HNS domain name, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, as a healthy and valid alternative to ICANN.
 
 ## What You Need
 
-- **Bob Wallet**, with your top-level domain (TLD) and at least 10 HNS coins
-- A **Yeil** account
+- [**Bob Wallet**](https://github.com/bob-wallet/bob-wallet/releases), with your top-level domain (TLD) and at least 10 HNS coins
+- A [**Yeil DNS**](https://dns.yeil.app) account
 - A **GitHub** account
 
 ## 1. Bob Wallet
 
-You need a domain stored in your personal Bob Wallet. You can bid for domains using Bob, which is both a node and a self-custodial wallet that lets you interact directly with the HNS blockchain.
+You need a domain stored in your personal Bob Wallet. You can bid for domains using Bob, which is both a node and a self-custodial wallet that lets you interact directly with the blockchain.
 
 ## 2. Yeil DNS Account
 
-Yeil DNS is a service that lets you connect your self-custodied domain in Bob Wallet to a third-party DNS nameserver, so you can manage your domain records without losing custody of your name. At any time, you can use Bob Wallet to delete all records associating your domain with Yeil, effectively breaking the connection. Yeil is developed by eskimo.software:
+Yeil DNS is a service that lets you connect your self-custodied domain in Bob Wallet to their DNS nameserver, so you can manage your domain records without losing custody of your name. At any time, you can use Bob Wallet to delete all records associating your domain with Yeil, effectively breaking the connection. Yeil is developed by https://eskimo.software.
 
-- https://yeil.org
+## 3. Connect Your Domain: Yeil <-> Bob Wallet
 
-## 3. Connect Your Domain with Yeil
-
-Once your domain is in your Bob Wallet, you need to connect it to Yeil DNS. In your Yeil account, go to **New zone**, type the domain you own, and click **Add zone**. Your new zone will appear with the records you need to add to your domain in Bob Wallet in order to connect it with Yeil.
+With your domain on Bob Wallet, you need to connect it to Yeil DNS. In your Yeil account, go to **New zone**, type the domain name you own, and click **Add**. It will appear with the records you need to add to your domain in Bob Wallet in order to connect it with Yeil.
 
 In Bob Wallet, go to **Domain Manager** and click your domain to open a new screen. In the **Records** section, add the records provided by Yeil:
 
