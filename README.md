@@ -2,7 +2,7 @@
 
 A brief guide to hosting a website on a self-controlled Handshake top-level domain (TLD). Handshake is an experimental DNS root zone based on a peer-to-peer (P2P) blockchain system.
 
-> **Note:** This guide does not cover how to obtain a HNS domain name, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, as a healthy and valid alternative to ICANN DNS.
+> **Note:** This guide does not cover how to obtain a HNS domain names or coins, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, as a healthy and valid alternative to ICANN DNS.
 
 ## What You Need
 
