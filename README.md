@@ -26,7 +26,7 @@ You need to connect your TLD (in Bob Wallet) to Yeil DNS. In your Yeil account, 
 
 In Bob Wallet, go to **Domain Manager** and click your TLD to open a new screen. In the **Records** section, add the records provided by Yeil:
 
-- **2 NS records** — for example, `a.ns.yeil.org` and `b.ns.yeil.org`
+- **2 NS records** — for example, `a.ns.yeil.org`, add a point `.` at the end if encountering errors `b.ns.yeil.org.`
 - **1 DS record** — using the value shown in your Yeil account
 
 <img src="images/guidethree.png" alt="My screenshot" width="700">
