@@ -16,18 +16,22 @@ You need a TLD stored in your personal Bob Wallet. You can bid for TLDs using Bo
 
 ## 2. Yeil DNS Account
 
-Yeil DNS is a service that lets you connect your self-custodied TLD in Bob Wallet to their DNS nameserver, so you can manage your domain records without losing custody of your TLD. At any time, you can use Bob Wallet to delete all records associating your TLD with Yeil, effectively breaking the connection. Yeil is developed by https://eskimo.software.
+Yeil DNS is a service that lets you connect your self-custodied TLD in Bob Wallet to their DNS nameserver, so you can manage your domain records without losing custody of your TLD. At any time, you can use Bob Wallet to delete all records associating your TLD with Yeil, breaking the connection. Yeil is developed by https://eskimo.software.
 
 ## 3. Connect Your Domain: Bob Wallet <-> Yeil
 
 While your TLD is on Bob Wallet, you need to connect it to Yeil DNS. In your Yeil account, go to **New zone**, type the TLD name you own, and click **Add**. It will appear with the records you need to add to your TLD in Bob Wallet in order to create the connection.
+
+<img src="images/guidetwo.png" alt="My screenshot" width="700">
 
 In Bob Wallet, go to **Domain Manager** and click your TLD to open a new screen. In the **Records** section, add the records provided by Yeil:
 
 - **2 NS records** — for example, `a.ns.yeil.org` and `b.ns.yeil.org`
 - **1 DS record** — using the value shown in your Yeil account
 
-Click **Submit** to save the changes. Updating takes roughly 10–20 minutes (the time needed for each block to be created on the Handshake network). After that, you should be able to see the new records on any HNS explorer, such as https://shakeshift.com.
+<img src="images/guidethree.png" alt="My screenshot" width="700">
+
+Click **Submit** to save the changes. Updating takes roughly 10–20 minutes (the time for each block to be minted). After that, you should be able to see the new records on any HNS explorer, such as https://shakeshift.com.
 
 ## 4. Configure GitHub
 
@@ -56,6 +60,8 @@ hi.yourdomain
 ```
 
 Because it is not an ICANN domain, GitHub will report that it doesn't work. Even though it will always show **"DNS Check in Progress,"** your site will still be online. It takes around 30 minutes to go live.
+
+<img src="images/guidefour.png" alt="My screenshot" width="700">
 
 ## 5. Set Your Domain as the Address for Your Site: Yeil <-> GitHub
 
