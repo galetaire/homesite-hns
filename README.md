@@ -78,9 +78,9 @@ The record update takes about 6 hours to go live. After that, your site will be 
 ```
 http://hi.yourdomain/
 ```
-You can check mine at http://hi.poopiter
 
-> **Note:** To resolve the Handshake DNS protocol, you will need a resolver, since browsers do not support it natively. Consider using [Fingertip](https://github.com/imperviousinc/fingertip).
+> **Note:** To resolve the Handshake DNS protocol, you will need a resolver, since browsers do not support it natively. Consider using [Fingertip](https://github.com/imperviousinc/fingertip). You  can check my site to know if your resolver works http://hi.poopiter.
+
 
 ## Done!
 
