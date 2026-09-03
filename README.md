@@ -53,7 +53,7 @@ https://youraccount.github.io/yourrepository
 
 Visit the site. At this point, your website is online.
 
-In the **Pages** section, go to **Custom domain** and add your desired domain. Note that GitHub will not recognize a pure HNS top-level domain (e.g. http://yourdomain`), it must be a second-level domain, such as:
+In the **Pages** section, go to **Custom domain** and add your desired domain. Note that GitHub will not recognize a pure HNS top-level domain (e.g. `http://yourdomain`), it must be a second-level domain, such as:
 
 ```
 hi.yourdomain
