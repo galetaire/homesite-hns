@@ -1,8 +1,8 @@
 # How to Host a Website on a Handshake TLD
 
-A brief guide to hosting a website on a self-controlled Handshake top-level domain (TLD). Handshake is an experimental DNS root zone based on a peer-to-peer (P2P) blockchain system.
+A brief guide to hosting a website on a self-controlled Handshake top-level domain (TLD). [Handshake](https://handshake.org/) is an experimental DNS root zone based on a peer-to-peer (P2P) blockchain system.
 
-> **Note:** This guide does not cover how to obtain a HNS domain names or coins, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, as a healthy and valid alternative to ICANN DNS.
+> **Note:** This guide does not cover how to obtain a HNS domain or coins, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, and a valid alternative to ICANN DNS.
 
 ## What You Need
 
@@ -53,7 +53,7 @@ https://youraccount.github.io/yourrepository
 
 Visit the site. At this point, your website is online.
 
-In the **Pages** section, go to **Custom domain** and add your desired domain. Note that it must be a second-level domain (e.g. `something.yourdomain`); GitHub will not recognize a pure HNS top-level domain:
+In the **Pages** section, go to **Custom domain** and add your desired domain. Note that GitHub will not recognize a pure HNS top-level domain (e.g. http://yourdomain`), it must be a second-level domain, such as:
 
 ```
 hi.yourdomain
@@ -67,7 +67,7 @@ Because it is not an ICANN domain, GitHub will report that it doesn't work. Even
 
 Finally, connect Yeil with GitHub. In your Yeil DNS zone, click **New record** for your domain and add an **A** record:
 
-| Type | Name            | Content                                    |
+| Type | Name            | IPv4 address                                    |
 | ---- | --------------- | ------------------------------------------ |
 | A    | `hi.yourdomain` | `185.199.111.153` (a GitHub Pages IP)      |
 
@@ -78,6 +78,8 @@ The record update takes about 6 hours to go live. After that, your site will be 
 ```
 http://hi.yourdomain/
 ```
+You can check mine at http://hi.poopiter
+
 > **Note:** To resolve the Handshake DNS protocol, you will need a resolver, since browsers do not support it natively. Consider using [Fingertip](https://github.com/imperviousinc/fingertip).
 
 ## Done!
