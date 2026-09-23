@@ -85,3 +85,7 @@ http://hi.yourdomain/
 ## Done!
 
 The next step is to personalize your website (right now it's just `index.html`). You can ask an AI to build a nicer one for you. The low cost of the HNS network lets you host an almost unlimited number of sites for next to nothing.
+
+## Contact
+
+If you have any question or have encountered any difficulty you can open an `issue` or reach by email at `spainhousing@yeilmail.com`.
