@@ -1,10 +1,9 @@
 //makeChart, calling the data and variables from the .csv file
 function makeChart(fairpe) {
   var rangeStart = 0
-  var rangeEnd = new Date().getFullYear() - 1989
-  var rangeLabels = fairpe.map(function(d) {return d.year}).slice(rangeStart, rangeEnd);
-  var rangeOne = fairpe.map(function(d) {return +d.d_market_money_b100_2005}).slice(rangeStart, rangeEnd);
-  var rangeTwo = fairpe.map(function(d) {return +d.e_market_money_b100_2005}).slice(rangeStart, rangeEnd);
+  var rangeEnd = new Date().getFullYear() - 198
+  var rangeLabels = fairpe.map(function(d) {return d.Year}).slice(rangeStart, rangeEnd);
+  var rangeOne = fairpe.map(function(d) {return +d.Lifetime*100}).slice(rangeStart, rangeEnd);
 
   Chart.defaults.font.size = 12;
   var chart = new Chart('fairpe', {
@@ -24,7 +23,7 @@ function makeChart(fairpe) {
         {
           label: 'Mercats de la UE',
           type: 'line',
-          data: rangeTwo,
+          data: rangeOne,
           backgroundColor: 'rgba(0, 0, 205, 0.2)',
           borderColor: 'rgba(0, 0, 205, 1)',
           borderWidth: 1,
