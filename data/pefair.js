@@ -1,12 +1,12 @@
 //makeChart, calling the data and variables from the .csv file
-function makeChart(fairpe) {
+function makeChart(pefair) {
   var rangeStart = 0
   var rangeEnd = new Date().getFullYear() - 154
-  var rangeLabels = fairpe.map(function(d) {return d.Year}).slice(rangeStart, rangeEnd);
-  var rangeOne = fairpe.map(function(d) {return +d.Lifetime*100}).slice(rangeStart, rangeEnd);
+  var rangeLabels = pefair.map(function(d) {return d.Year}).slice(rangeStart, rangeEnd);
+  var rangeOne = pefair.map(function(d) {return +d.Lifetime*100}).slice(rangeStart, rangeEnd);
 
   Chart.defaults.font.size = 12;
-  var chart = new Chart('fairpe', {
+  var chart = new Chart('pefair', {
     options: {
         scales: {
           x: {
