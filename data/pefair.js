@@ -21,7 +21,7 @@ function makeChart(pefair) {
       labels: rangeLabels,
       datasets: [
         {
-          label: "Percentatge de temps per a recuperar la inversió",
+          label: "Percentatge de vida per a recuperar la inversió",
           type: 'line',
           data: rangeOne,
           backgroundColor: 'rgba(0, 0, 205, 0.2)',
