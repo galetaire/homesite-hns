@@ -6,13 +6,13 @@ A brief guide to hosting a website on a self-controlled Handshake top-level doma
 
 ## What You Need
 
-- [**Bob Wallet**](https://github.com/bob-wallet/bob-wallet/releases), with your top-level domain (TLD) and at least 10 HNS coins
+- [**Bob wallet**](https://github.com/shadstoneofficial/bob-wallet/releases) or [**Namebase wallet**](https://namebase.io/wallet), with your top-level domain (TLD) and at least 10 HNS coins
 - A [**Yeil DNS**](https://dns.yeil.app) account
 - A **GitHub** account
 
-## 1. Bob Wallet
+## 1. Bob or Namebase Wallet
 
-You need a TLD stored in your personal Bob Wallet. You can bid for TLDs using Bob, which is both a node and a self-custodial wallet that lets you interact directly with the blockchain.
+You need a TLD stored in your personal Bob Wallet or Namebase wallet. You can bid for TLDs using Bob or Namebase, which is both a node and a self-custodial wallet that lets you interact directly with the blockchain.
 
 ## 2. Yeil DNS Account
 
@@ -79,7 +79,7 @@ The record update takes about 6 hours to go live. After that, your site will be 
 http://hi.yourdomain/
 ```
 
-> **Note:** To resolve the Handshake DNS protocol, you will need a resolver, since browsers do not support it natively. Consider using [Fingertip](https://github.com/imperviousinc/fingertip). You  can check my site to know if your resolver works http://hi.poopiter.
+> **Note:** To resolve the Handshake DNS protocol, you will need a resolver, since browsers do not support it natively. Consider using [Fingertip](https://github.com/imperviousinc/fingertip). Namebase wallet includes a resolver you can activate. You  can check my site to know if your resolver works http://hi.poopiter.
 
 
 ## Done!

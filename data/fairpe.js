@@ -21,7 +21,7 @@ function makeChart(fairpe) {
       labels: rangeLabels,
       datasets: [
         {
-          label: "Percentathe de P/E sobre l'esperança de vida",
+          label: "Percentatge de temps per a recuperar la inversió",
           type: 'line',
           data: rangeOne,
           backgroundColor: 'rgba(0, 0, 205, 0.2)',
