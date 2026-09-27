@@ -39,13 +39,12 @@ function makeChart(pelimits) {
           label: 'Valor just',
           type: 'line',
           data: rangeTwo,
-          backgroundColor: 'rgba(0,0,0, 1)',
+          backgroundColor: 'rgba(0, 0, 205, 0.7)',
           borderColor: 'rgba(0, 0, 0, 1)',
-          borderWidth: 2,
-          borderDash: [5, 5],
-          showLine: true,
-          pointStyle: 'point',
-          pointRadius: 0,
+          borderWidth: 0.5,
+          showLine: false,
+          pointStyle: 'rect',
+          pointRadius: 2,
           fill: false
         },
         {
