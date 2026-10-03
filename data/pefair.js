@@ -1,7 +1,7 @@
 //makeChart, calling the data and variables from the .csv file
 function makeChart(pefair) {
   var rangeStart = 0
-  var rangeEnd = new Date().getFullYear() - 154
+  var rangeEnd = new Date().getFullYear() -154
   var rangeLabels = pefair.map(function(d) {return d.Year}).slice(rangeStart, rangeEnd);
   var rangeOne = pefair.map(function(d) {return +d.Lifetime*100}).slice(rangeStart, rangeEnd);
 
