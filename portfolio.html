@@ -115,6 +115,11 @@
   </form>
   <small>(A) Ticker en format Twelve Data: <code>AAPL</code> per als EUA, o <code>SÍMBOL:BORSA</code> per a altres mercats (p. ex. <code>SAN:BME</code>, <code>ASML:Euronext</code>). Cerca'ls a <a href="https://twelvedata.com/stocks" target="_blank">twelvedata.com/stocks</a>.</small>
   <small>(B) El preu i les comissions s'indiquen en la moneda de cotització.</small>
+  <div class="pf-toolbar" style="margin-top: 14px;">
+    <button class="pf-btn" id="csvbtn">⬆ Importa posicions (CSV)</button>
+    <input type="file" id="csvfile" accept=".csv,text/csv" hidden>
+  </div>
+  <small>(C) CSV amb les columnes <code>Symbol</code>, <code>Company</code>, <code>Shares</code>, <code>Average Price</code>, <code>Last Price</code> i <code>Market Value</code>. Substitueix les operacions actuals per una compra per posició; la moneda i la borsa es dedueixen automàticament.</small>
 </div>
 
 <div class="subsection">
@@ -212,8 +217,14 @@
     var r = fxRate(cur, d);
     return r ? v / r : null;
   }
+  // Downloaded price history, or the last price from an imported CSV when there is none.
+  function series(t) {
+    if (cache.series[t]) return cache.series[t];
+    var m = state.manual && state.manual[t];
+    return m ? { currency: m.currency, points: [[m.date, m.price]], manual: true } : null;
+  }
   function seriesCurrency(t) {
-    var s = cache.series[t];
+    var s = series(t);
     if (s && s.currency) return s.currency;
     var tx = state.tx.find(function (x) { return x.ticker === t; });
     return tx ? tx.currency : state.settings.base;
@@ -261,11 +272,7 @@
   async function refresh(force) {
     var ts = tickers();
     if (!ts.length) { render(); return; }
-    if (!state.settings.apiKey) {
-      setStatus('Afegeix la teva clau API de Twelve Data a la configuració per obtenir preus.');
-      render();
-      return;
-    }
+    var hasKey = !!state.settings.apiKey;
     if (!force && Date.now() - cache.fetchedAt < CACHE_TTL && ts.every(function (t) { return cache.series[t]; })) {
       setStatus('Preus de ' + new Date(cache.fetchedAt).toLocaleString('ca-ES') + '.');
       render();
@@ -274,13 +281,16 @@
     $('refresh').disabled = true;
     var start = firstDate();
     var errors = [];
-    for (var i = 0; i < ts.length; i++) {
+    for (var i = 0; hasKey && i < ts.length; i++) {
       if (i > 0 && i % PER_MINUTE === 0) {
         for (var w = 60; w > 0; w--) { setStatus('Límit del pla gratuït: esperant ' + w + ' s… (' + i + '/' + ts.length + ')'); await sleep(1000); }
       }
       setStatus('Descarregant ' + ts[i] + '… (' + (i + 1) + '/' + ts.length + ')');
       try {
-        cache.series[ts[i]] = await fetchSeries(ts[i], start);
+        var s = await fetchSeries(ts[i], start);
+        var want = state.tx.find(function (x) { return x.ticker === ts[i]; }).currency;
+        if (s.currency !== want) throw new Error('cotitza en ' + s.currency + ', no en ' + want + ' (revisa la borsa)');
+        cache.series[ts[i]] = s;
       } catch (e) {
         errors.push(ts[i] + ': ' + e.message);
       }
@@ -296,6 +306,7 @@
     cache.fetchedAt = Date.now();
     save(CACHE, cache);
     $('refresh').disabled = false;
+    if (!hasKey) errors.unshift('Sense clau API de Twelve Data: es mostren els preus importats, no els actuals');
     setStatus(errors.length ? '⚠ ' + errors.join(' · ') : 'Actualitzat ' + new Date().toLocaleString('ca-ES') + '.');
     render();
   }
@@ -328,7 +339,7 @@
     var list = Object.keys(pos).map(function (k) { return pos[k]; }).filter(function (p) { return p.shares > 1e-9; });
     var d = today();
     list.forEach(function (p) {
-      var s = cache.series[p.ticker];
+      var s = series(p.ticker);
       var cur = seriesCurrency(p.ticker);
       p.currency = cur;
       p.avg = p.costLocal / p.shares;
@@ -353,7 +364,7 @@
     if (!start) return [];
     var dates = {};
     ts.forEach(function (t) {
-      var s = cache.series[t];
+      var s = series(t);
       if (s) s.points.forEach(function (p) { if (p[0] >= start) dates[p[0]] = true; });
     });
     var days = Object.keys(dates).sort();
@@ -369,9 +380,10 @@
       }
       var value = 0;
       Object.keys(shares).forEach(function (k) {
-        if (shares[k] <= 1e-9 || !cache.series[k]) return;
-        var px = at(cache.series[k].points, d);
-        if (px != null) value += toBase(shares[k] * px, cache.series[k].currency, d) || 0;
+        var sk = series(k);
+        if (shares[k] <= 1e-9 || !sk) return;
+        var px = at(sk.points, d);
+        if (px != null) value += toBase(shares[k] * px, sk.currency, d) || 0;
       });
       return { d: d, value: value, invested: invested };
     });
@@ -546,7 +558,7 @@
   });
 
   $('export').addEventListener('click', function () {
-    var data = { settings: { base: state.settings.base }, tx: state.tx };
+    var data = { settings: { base: state.settings.base }, tx: state.tx, manual: state.manual || {} };
     var a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
     a.download = 'cartera-' + today() + '.json';
@@ -561,12 +573,104 @@
       var data = JSON.parse(txt);
       if (!Array.isArray(data.tx)) throw new Error('format');
       state.tx = data.tx;
+      state.manual = data.manual || {};
       if (data.settings && data.settings.base) state.settings.base = data.settings.base;
       $('basecur').value = state.settings.base;
       save(STORE, state);
       refresh(true);
     }).catch(function () { alert('Fitxer no vàlid.'); });
     e.target.value = '';
+  });
+
+  // ---------- CSV holdings import ----------
+  function parseCsv(txt) {
+    var rows = [], row = [], field = '', q = false;
+    for (var i = 0; i < txt.length; i++) {
+      var c = txt[i];
+      if (q) {
+        if (c === '"' && txt[i + 1] === '"') { field += '"'; i++; }
+        else if (c === '"') q = false;
+        else field += c;
+      } else if (c === '"') q = true;
+      else if (c === ',') { row.push(field); field = ''; }
+      else if (c === '\n' || c === '\r') {
+        if (c === '\r' && txt[i + 1] === '\n') i++;
+        row.push(field); field = '';
+        if (row.some(function (f) { return f !== ''; })) rows.push(row);
+        row = [];
+      } else field += c;
+    }
+    row.push(field);
+    if (row.some(function (f) { return f !== ''; })) rows.push(row);
+    var head = rows.shift().map(function (h) { return h.trim(); });
+    return rows.map(function (r) {
+      var o = {};
+      head.forEach(function (h, i) { o[h] = r[i]; });
+      return o;
+    });
+  }
+
+  // Market Value is in the base currency and Last Price in the quote currency,
+  // so their ratio is an FX rate: match it against today's rates.
+  function guessCurrency(row, rates) {
+    var implied = parseFloat(row['Shares']) * parseFloat(row['Last Price']) / parseFloat(row['Market Value']);
+    if (!isFinite(implied)) return state.settings.base;
+    var best = state.settings.base, bestDiff = Math.abs(Math.log(implied));
+    Object.keys(rates).forEach(function (c) {
+      var diff = Math.abs(Math.log(implied / rates[c]));
+      if (diff < bestDiff) { best = c; bestDiff = diff; }
+    });
+    return best;
+  }
+
+  // Twelve Data's symbol search needs no API key.
+  async function resolveTicker(sym, company, cur) {
+    try {
+      var j = await (await fetch('https://api.twelvedata.com/symbol_search?outputsize=30&symbol=' + encodeURIComponent(sym))).json();
+      var word = (company || '').split(/[\s.,]+/)[0].toLowerCase();
+      var hits = (j.data || []).filter(function (d) { return d.symbol === sym && d.currency === cur; });
+      var named = hits.filter(function (d) { return word && d.instrument_name.toLowerCase().indexOf(word) !== -1; });
+      var d = named[0] || hits[0];
+      if (!d) return sym;
+      return d.country === 'United States' ? sym : sym + ':' + d.exchange;
+    } catch (e) {
+      return sym;
+    }
+  }
+
+  async function importCsv(txt, date) {
+    var rows = parseCsv(txt).filter(function (r) { return r['Symbol'] && parseFloat(r['Shares']) > 0; });
+    if (!rows.length) throw new Error('cap fila');
+    var base = state.settings.base;
+    var latest = await (await fetch('https://api.frankfurter.dev/v1/latest?base=' + base)).json();
+    var tx = [], manual = {};
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i], sym = r['Symbol'].trim().toUpperCase();
+      setStatus('Identificant ' + sym + '… (' + (i + 1) + '/' + rows.length + ')');
+      var cur = guessCurrency(r, latest.rates);
+      var ticker = await resolveTicker(sym, r['Company'], cur);
+      tx.push({ date: date, type: 'buy', ticker: ticker, shares: parseFloat(r['Shares']), price: parseFloat(r['Average Price']), currency: cur, fees: 0 });
+      if (parseFloat(r['Last Price']) > 0) manual[ticker] = { price: parseFloat(r['Last Price']), currency: cur, date: date };
+    }
+    state.tx = tx;
+    state.manual = manual;
+    cache = { fetchedAt: 0, series: {}, fx: {} };
+    save(STORE, state);
+    save(CACHE, cache);
+  }
+
+  $('csvbtn').addEventListener('click', function () { $('csvfile').click(); });
+  $('csvfile').addEventListener('change', function (e) {
+    var file = e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    if (state.tx.length && !confirm('Això substituirà les ' + state.tx.length + ' operacions actuals. Continuar?')) return;
+    var m = file.name.match(/\d{4}-\d{2}-\d{2}/);
+    var date = prompt('Data de compra per a totes les posicions (AAAA-MM-DD):', m ? m[0] : today());
+    if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+    file.text().then(function (txt) { return importCsv(txt, date); })
+      .then(function () { refresh(true); })
+      .catch(function (err) { alert('No s\'ha pogut importar el CSV: ' + err.message); });
   });
 
   // Re-draw charts with the new colours when the theme toggles.
