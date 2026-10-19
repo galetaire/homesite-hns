@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta title="Cartera">
+  <meta description="Personal site">
+  <meta name="lightning" content="lnurlp:galetaire@getalby.com"/>
+  <meta property="og:site_name" content="Hi, I'm Galetaire!"/>
+  <meta property="og:description" content="Personal Site" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/galetaire/galetaireID/refs/heads/main/public/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="http://fonts.googleapis.com/css?family=Questrial" rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/chart.umd.min.js"></script>
+  <link href="styles/style.css" rel="stylesheet" type="text/css">
+  <title>La meva cartera</title>
+  <style>
+    .pf-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 20px 0; }
+    .pf-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; box-shadow: var(--shadow-sm); }
+    .pf-card .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
+    .pf-card .value { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .pf-card .sub { font-size: 13px; font-variant-numeric: tabular-nums; }
+    .pos { color: #16a34a; }
+    .neg { color: #dc2626; }
+    html[data-theme="dark"] .pos { color: #4ade80; }
+    html[data-theme="dark"] .neg { color: #f87171; }
+    @media (prefers-color-scheme: dark) { html:not([data-theme="light"]) .pos { color: #4ade80; } html:not([data-theme="light"]) .neg { color: #f87171; } }
+    .pf-table-wrap { overflow-x: auto; }
+    .pf-table-wrap table { margin: 0; overflow: visible; }
+    .pf-table-wrap td, .pf-table-wrap th { padding: 8px 12px; white-space: nowrap; }
+    .pf-table-wrap td.num, .pf-table-wrap th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .pf-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; align-items: end; }
+    .pf-form label { display: flex; flex-direction: column; font-size: 13px; color: var(--text-muted); gap: 4px; }
+    .pf-form input, .pf-form select, .pf-settings input {
+      font: inherit; font-size: 15px; color: var(--text); background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; width: 100%;
+    }
+    .pf-btn { font: inherit; font-size: 14px; cursor: pointer; border-radius: 999px; padding: 8px 16px;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text); }
+    .pf-btn:hover { border-color: var(--accent); }
+    .pf-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .pf-btn.small { padding: 3px 10px; font-size: 13px; }
+    .pf-toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .pf-status { font-size: 13px; color: var(--text-muted); margin-top: 8px; min-height: 1.4em; }
+    .pf-settings { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+    .pf-settings label { display: flex; flex-direction: column; font-size: 13px; color: var(--text-muted); gap: 4px; flex: 1 1 220px; }
+    .pf-range { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .pf-range button.active { background: var(--accent-soft); border-color: var(--accent); }
+    .pf-chart { position: relative; height: 320px; }
+    .pf-chart.small { height: 260px; }
+    .pf-empty { color: var(--text-muted); font-size: 14px; }
+  </style>
+</head>
+<body class="wide">
+<br>
+<br>
+<h1>La meva cartera 💼</h1>
+<div class="navbar">
+  <button onclick="window.location.href='index.html'">About me 🧔🏻</button>
+  <button onclick="window.location.href='test1.html'">Test Slot 1 🥑</button>
+  <button onclick="window.location.href='test2.html'">Test Slot 2 🍉</button>
+  <button onclick="window.location.href='test3.html'">Test Slot 3 🍌</button>
+  <button onclick="window.location.href='market.html'">Markets 🍿</button>
+  <button onclick="window.location.href='portfolio.html'">Portfolio 💼</button>
+  <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<small class="page-subtitle">Les dades de la cartera es guarden només en aquest navegador (localStorage). Preus via <a href="https://twelvedata.com" target="_blank">Twelve Data</a>, canvi de divises via <a href="https://frankfurter.dev" target="_blank">Frankfurter</a>.</small>
+
+<div class="pf-cards" id="cards"></div>
+
+<div class="subsection">
+  <h3>Evolució de la cartera</h3>
+  <div class="pf-range" id="range">
+    <button class="pf-btn small" data-r="30">1M</button>
+    <button class="pf-btn small" data-r="91">3M</button>
+    <button class="pf-btn small" data-r="182">6M</button>
+    <button class="pf-btn small" data-r="ytd">YTD</button>
+    <button class="pf-btn small" data-r="365">1A</button>
+    <button class="pf-btn small active" data-r="all">Tot</button>
+  </div>
+  <div class="pf-chart"><canvas id="evolution"></canvas></div>
+  <small>(A) Valor de mercat diari de les posicions obertes, comparat amb el capital net aportat.</small>
+</div>
+
+<div class="subsection">
+  <h3>Posicions</h3>
+  <div class="pf-toolbar">
+    <button class="pf-btn primary" id="refresh">↻ Actualitza preus</button>
+    <span class="pf-status" id="status"></span>
+  </div>
+  <div class="pf-table-wrap"><table id="positions"></table></div>
+</div>
+
+<div class="subsection">
+  <h3>Distribució</h3>
+  <div class="pf-chart small"><canvas id="allocation"></canvas></div>
+</div>
+
+<div class="subsection">
+  <h3>Afegeix una operació</h3>
+  <form class="pf-form" id="txform">
+    <label>Data <input type="date" name="date" required></label>
+    <label>Tipus
+      <select name="type"><option value="buy">Compra</option><option value="sell">Venda</option></select>
+    </label>
+    <label>Ticker <input name="ticker" placeholder="AAPL, SAN:BME" required></label>
+    <label>Accions <input type="number" name="shares" step="any" min="0" required></label>
+    <label>Preu per acció <input type="number" name="price" step="any" min="0" required></label>
+    <label>Moneda
+      <select name="currency"><option>EUR</option><option>USD</option><option>GBP</option><option>CHF</option><option>JPY</option><option>CAD</option></select>
+    </label>
+    <label>Comissions <input type="number" name="fees" step="any" min="0" value="0"></label>
+    <button class="pf-btn primary" type="submit">Afegeix</button>
+  </form>
+  <small>(A) Ticker en format Twelve Data: <code>AAPL</code> per als EUA, o <code>SÍMBOL:BORSA</code> per a altres mercats (p. ex. <code>SAN:BME</code>, <code>ASML:Euronext</code>). Cerca'ls a <a href="https://twelvedata.com/stocks" target="_blank">twelvedata.com/stocks</a>.</small>
+  <small>(B) El preu i les comissions s'indiquen en la moneda de cotització.</small>
+</div>
+
+<div class="subsection">
+  <h3>Operacions</h3>
+  <div class="pf-table-wrap"><table id="txs"></table></div>
+</div>
+
+<div class="subsection">
+  <h3>Configuració</h3>
+  <div class="pf-settings">
+    <label>Clau API de Twelve Data (gratuïta)
+      <input type="password" id="apikey" placeholder="Enganxa aquí la teva clau" autocomplete="off">
+    </label>
+    <label style="flex: 0 1 120px;">Moneda base
+      <input id="basecur" value="EUR" maxlength="3">
+    </label>
+    <button class="pf-btn primary" id="savesettings">Desa</button>
+  </div>
+  <small>(A) Aconsegueix una clau gratuïta a <a href="https://twelvedata.com/pricing" target="_blank">twelvedata.com</a> (8 peticions/minut, 800/dia). Es guarda només en aquest navegador.</small>
+  <div class="pf-toolbar" style="margin-top: 14px;">
+    <button class="pf-btn" id="export">⬇ Exporta JSON</button>
+    <button class="pf-btn" id="importbtn">⬆ Importa JSON</button>
+    <input type="file" id="importfile" accept="application/json" hidden>
+  </div>
+  <small>(B) Fes còpies de seguretat exportant el fitxer: si esborres les dades del navegador es perden les operacions.</small>
+</div>
+
+<hr>
+<div id="footer">
+  <script>document.write(new Date().getFullYear())</script> 🄯Galetaire. You can fork this site on <a href="https://github.com/galetaire/homesite" target="_blank">github</a>🐈.
+</div>
+<script src="theme.js" defer></script>
+<script>
+(function () {
+  var STORE = 'portfolio.v1';
+  var CACHE = 'portfolio.cache.v1';
+  var CACHE_TTL = 15 * 60 * 1000;
+  var PER_MINUTE = 8;
+
+  function load(key, fallback) {
+    try { var v = JSON.parse(localStorage.getItem(key)); return v || fallback; } catch (e) { return fallback; }
+  }
+  function save(key, v) {
+    try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) {}
+  }
+
+  var state = load(STORE, { settings: { apiKey: '', base: 'EUR' }, tx: [] });
+  var cache = load(CACHE, { fetchedAt: 0, series: {}, fx: {} });
+  var range = 'all';
+  var evoChart, allocChart;
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  // ---------- Formatting ----------
+  function money(v, cur) {
+    if (v == null || isNaN(v)) return '–';
+    return new Intl.NumberFormat('ca-ES', { style: 'currency', currency: cur || state.settings.base, maximumFractionDigits: 2 }).format(v);
+  }
+  function pct(v) {
+    if (v == null || !isFinite(v)) return '–';
+    return (v > 0 ? '+' : '') + v.toFixed(2) + '%';
+  }
+  function cls(v) { return v > 0 ? 'pos' : v < 0 ? 'neg' : ''; }
+  function num(v, d) { return new Intl.NumberFormat('ca-ES', { maximumFractionDigits: d == null ? 4 : d }).format(v); }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
+  function today() { return new Date().toISOString().slice(0, 10); }
+
+  // ---------- Helpers ----------
+  function tickers() {
+    var s = {};
+    state.tx.forEach(function (t) { s[t.ticker] = true; });
+    return Object.keys(s).sort();
+  }
+  function firstDate() {
+    return state.tx.reduce(function (m, t) { return !m || t.date < m ? t.date : m; }, null);
+  }
+  // Last value at or before date d in a sorted [[date, value]] array.
+  function at(points, d) {
+    var lo = 0, hi = points.length - 1, res = null;
+    while (lo <= hi) {
+      var mid = (lo + hi) >> 1;
+      if (points[mid][0] <= d) { res = points[mid][1]; lo = mid + 1; } else hi = mid - 1;
+    }
+    return res;
+  }
+  // Units of `cur` per 1 base currency on date d.
+  function fxRate(cur, d) {
+    var base = state.settings.base;
+    if (!cur || cur === base) return 1;
+    var pts = cache.fx[cur];
+    if (!pts || !pts.length) return null;
+    return at(pts, d) || pts[0][1];
+  }
+  function toBase(v, cur, d) {
+    var r = fxRate(cur, d);
+    return r ? v / r : null;
+  }
+  function seriesCurrency(t) {
+    var s = cache.series[t];
+    if (s && s.currency) return s.currency;
+    var tx = state.tx.find(function (x) { return x.ticker === t; });
+    return tx ? tx.currency : state.settings.base;
+  }
+
+  // ---------- Data fetching ----------
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+  async function fetchSeries(ticker, start) {
+    var parts = ticker.split(':');
+    var url = 'https://api.twelvedata.com/time_series?interval=1day&outputsize=5000&order=asc' +
+      '&symbol=' + encodeURIComponent(parts[0]) +
+      (parts[1] ? '&exchange=' + encodeURIComponent(parts[1]) : '') +
+      '&start_date=' + start + '&apikey=' + encodeURIComponent(state.settings.apiKey);
+    var r = await fetch(url);
+    var j = await r.json();
+    if (j.status === 'error') { var e = new Error(j.message); e.code = j.code; throw e; }
+    var cur = j.meta.currency;
+    var factor = 1;
+    if (cur === 'GBp' || cur === 'GBX') { cur = 'GBP'; factor = 0.01; }
+    return {
+      currency: cur,
+      points: j.values.map(function (v) { return [v.datetime.slice(0, 10), parseFloat(v.close) * factor]; })
+    };
+  }
+
+  async function fetchFx(currencies, start) {
+    var base = state.settings.base;
+    var list = currencies.filter(function (c) { return c !== base; });
+    var out = {};
+    if (!list.length) return out;
+    // Start a week earlier so the first trading day always has a rate to fall back on.
+    var s = new Date(start); s.setDate(s.getDate() - 7);
+    var url = 'https://api.frankfurter.dev/v1/' + s.toISOString().slice(0, 10) + '..?base=' + base + '&symbols=' + list.join(',');
+    var j = await (await fetch(url)).json();
+    var latest = await (await fetch('https://api.frankfurter.dev/v1/latest?base=' + base + '&symbols=' + list.join(','))).json();
+    j.rates[latest.date] = latest.rates;
+    list.forEach(function (c) { out[c] = []; });
+    Object.keys(j.rates).sort().forEach(function (d) {
+      list.forEach(function (c) { if (j.rates[d][c]) out[c].push([d, j.rates[d][c]]); });
+    });
+    return out;
+  }
+
+  async function refresh(force) {
+    var ts = tickers();
+    if (!ts.length) { render(); return; }
+    if (!state.settings.apiKey) {
+      setStatus('Afegeix la teva clau API de Twelve Data a la configuració per obtenir preus.');
+      render();
+      return;
+    }
+    if (!force && Date.now() - cache.fetchedAt < CACHE_TTL && ts.every(function (t) { return cache.series[t]; })) {
+      setStatus('Preus de ' + new Date(cache.fetchedAt).toLocaleString('ca-ES') + '.');
+      render();
+      return;
+    }
+    $('refresh').disabled = true;
+    var start = firstDate();
+    var errors = [];
+    for (var i = 0; i < ts.length; i++) {
+      if (i > 0 && i % PER_MINUTE === 0) {
+        for (var w = 60; w > 0; w--) { setStatus('Límit del pla gratuït: esperant ' + w + ' s… (' + i + '/' + ts.length + ')'); await sleep(1000); }
+      }
+      setStatus('Descarregant ' + ts[i] + '… (' + (i + 1) + '/' + ts.length + ')');
+      try {
+        cache.series[ts[i]] = await fetchSeries(ts[i], start);
+      } catch (e) {
+        errors.push(ts[i] + ': ' + e.message);
+      }
+    }
+    try {
+      var curs = {};
+      ts.forEach(function (t) { curs[seriesCurrency(t)] = true; });
+      state.tx.forEach(function (t) { curs[t.currency] = true; });
+      cache.fx = await fetchFx(Object.keys(curs), start);
+    } catch (e) {
+      errors.push('Divises: ' + e.message);
+    }
+    cache.fetchedAt = Date.now();
+    save(CACHE, cache);
+    $('refresh').disabled = false;
+    setStatus(errors.length ? '⚠ ' + errors.join(' · ') : 'Actualitzat ' + new Date().toLocaleString('ca-ES') + '.');
+    render();
+  }
+
+  function setStatus(msg) { $('status').textContent = msg; }
+
+  // ---------- Calculations ----------
+  // Average-cost method. Cost basis is kept in base currency using the FX rate of each trade's date.
+  function computePositions() {
+    var pos = {};
+    var realized = 0;
+    state.tx.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }).forEach(function (t) {
+      var p = pos[t.ticker] || (pos[t.ticker] = { ticker: t.ticker, shares: 0, costLocal: 0, costBase: 0 });
+      var fees = t.fees || 0;
+      if (t.type === 'buy') {
+        var local = t.shares * t.price + fees;
+        p.shares += t.shares;
+        p.costLocal += local;
+        p.costBase += toBase(local, t.currency, t.date) || 0;
+      } else {
+        var frac = p.shares ? Math.min(t.shares / p.shares, 1) : 0;
+        var soldBase = p.costBase * frac;
+        var proceeds = toBase(t.shares * t.price - fees, t.currency, t.date) || 0;
+        realized += proceeds - soldBase;
+        p.costLocal -= p.costLocal * frac;
+        p.costBase -= soldBase;
+        p.shares -= t.shares;
+      }
+    });
+    var list = Object.keys(pos).map(function (k) { return pos[k]; }).filter(function (p) { return p.shares > 1e-9; });
+    var d = today();
+    list.forEach(function (p) {
+      var s = cache.series[p.ticker];
+      var cur = seriesCurrency(p.ticker);
+      p.currency = cur;
+      p.avg = p.costLocal / p.shares;
+      if (s && s.points.length) {
+        var n = s.points.length;
+        p.price = s.points[n - 1][1];
+        p.prev = n > 1 ? s.points[n - 2][1] : null;
+        p.priceDate = s.points[n - 1][0];
+      }
+      p.value = p.price != null ? toBase(p.shares * p.price, cur, d) : null;
+      p.dayChange = p.prev ? (p.price / p.prev - 1) * 100 : null;
+      p.dayChangeBase = p.prev && p.value != null ? p.value - toBase(p.shares * p.prev, cur, d) : null;
+      p.pl = p.value != null ? p.value - p.costBase : null;
+      p.plPct = p.pl != null && p.costBase ? (p.pl / p.costBase) * 100 : null;
+    });
+    return { list: list, realized: realized };
+  }
+
+  function computeEvolution() {
+    var ts = tickers();
+    var start = firstDate();
+    if (!start) return [];
+    var dates = {};
+    ts.forEach(function (t) {
+      var s = cache.series[t];
+      if (s) s.points.forEach(function (p) { if (p[0] >= start) dates[p[0]] = true; });
+    });
+    var days = Object.keys(dates).sort();
+    var txs = state.tx.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+    var shares = {}, invested = 0, ti = 0;
+    return days.map(function (d) {
+      while (ti < txs.length && txs[ti].date <= d) {
+        var t = txs[ti++];
+        var sign = t.type === 'buy' ? 1 : -1;
+        shares[t.ticker] = (shares[t.ticker] || 0) + sign * t.shares;
+        var cash = t.shares * t.price + sign * (t.fees || 0);
+        invested += sign * (toBase(cash, t.currency, t.date) || 0);
+      }
+      var value = 0;
+      Object.keys(shares).forEach(function (k) {
+        if (shares[k] <= 1e-9 || !cache.series[k]) return;
+        var px = at(cache.series[k].points, d);
+        if (px != null) value += toBase(shares[k] * px, cache.series[k].currency, d) || 0;
+      });
+      return { d: d, value: value, invested: invested };
+    });
+  }
+
+  // ---------- Rendering ----------
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+  function render() {
+    var base = state.settings.base;
+    var res = computePositions();
+    var list = res.list;
+    var total = 0, cost = 0, day = 0, priced = true;
+    list.forEach(function (p) {
+      if (p.value == null) { priced = false; return; }
+      total += p.value; cost += p.costBase; day += p.dayChangeBase || 0;
+    });
+    var pl = total - cost;
+
+    $('cards').innerHTML = !list.length ? '' : [
+      ['Valor actual', money(total), priced ? '' : '<span class="neg">Falten preus</span>'],
+      ['Cost de les posicions', money(cost), ''],
+      ['Guany latent', '<span class="' + cls(pl) + '">' + money(pl) + '</span>', '<span class="' + cls(pl) + '">' + pct(cost ? pl / cost * 100 : null) + '</span>'],
+      ['Avui', '<span class="' + cls(day) + '">' + money(day) + '</span>', '<span class="' + cls(day) + '">' + pct(total - day ? day / (total - day) * 100 : null) + '</span>'],
+      ['Guany realitzat', '<span class="' + cls(res.realized) + '">' + money(res.realized) + '</span>', '']
+    ].map(function (c) {
+      return '<div class="pf-card"><div class="label">' + c[0] + '</div><div class="value">' + c[1] + '</div><div class="sub">' + c[2] + '</div></div>';
+    }).join('');
+
+    // Positions table
+    if (!list.length) {
+      $('positions').innerHTML = '<tr><td class="pf-empty">Encara no hi ha posicions. Afegeix la primera operació a sota.</td></tr>';
+    } else {
+      list.sort(function (a, b) { return (b.value || 0) - (a.value || 0); });
+      $('positions').innerHTML =
+        '<tr><th>Ticker</th><th class="num">Accions</th><th class="num">Cost mitjà</th><th class="num">Preu</th><th class="num">Avui</th><th class="num">Valor (' + base + ')</th><th class="num">Guany</th><th class="num">%</th><th class="num">Pes</th></tr>' +
+        list.map(function (p) {
+          return '<tr><td><b>' + esc(p.ticker) + '</b></td>' +
+            '<td class="num">' + num(p.shares) + '</td>' +
+            '<td class="num">' + money(p.avg, p.currency) + '</td>' +
+            '<td class="num" title="' + (p.priceDate || '') + '">' + money(p.price, p.currency) + '</td>' +
+            '<td class="num ' + cls(p.dayChange) + '">' + pct(p.dayChange) + '</td>' +
+            '<td class="num">' + money(p.value) + '</td>' +
+            '<td class="num ' + cls(p.pl) + '">' + money(p.pl) + '</td>' +
+            '<td class="num ' + cls(p.pl) + '">' + pct(p.plPct) + '</td>' +
+            '<td class="num">' + (p.value != null && total ? (p.value / total * 100).toFixed(1) + '%' : '–') + '</td></tr>';
+        }).join('');
+    }
+
+    // Transactions table
+    var txs = state.tx.map(function (t, i) { return [t, i]; }).sort(function (a, b) { return a[0].date < b[0].date ? 1 : -1; });
+    $('txs').innerHTML = !txs.length ? '<tr><td class="pf-empty">Cap operació registrada.</td></tr>' :
+      '<tr><th>Data</th><th>Tipus</th><th>Ticker</th><th class="num">Accions</th><th class="num">Preu</th><th class="num">Comissions</th><th class="num">Total</th><th></th></tr>' +
+      txs.map(function (x) {
+        var t = x[0];
+        return '<tr><td>' + t.date + '</td><td>' + (t.type === 'buy' ? 'Compra' : 'Venda') + '</td><td>' + esc(t.ticker) + '</td>' +
+          '<td class="num">' + num(t.shares) + '</td><td class="num">' + money(t.price, t.currency) + '</td>' +
+          '<td class="num">' + money(t.fees || 0, t.currency) + '</td>' +
+          '<td class="num">' + money(t.shares * t.price + (t.type === 'buy' ? 1 : -1) * (t.fees || 0), t.currency) + '</td>' +
+          '<td><button class="pf-btn small" data-del="' + x[1] + '" aria-label="Esborra">✕</button></td></tr>';
+      }).join('');
+
+    renderEvolution();
+    renderAllocation(list, total);
+  }
+
+  function renderEvolution() {
+    var data = computeEvolution();
+    if (range !== 'all' && data.length) {
+      var from = new Date();
+      if (range === 'ytd') from = new Date(from.getFullYear(), 0, 1);
+      else from.setDate(from.getDate() - parseInt(range, 10));
+      var f = from.toISOString().slice(0, 10);
+      data = data.filter(function (p) { return p.d >= f; });
+    }
+    var accent = css('--accent'), muted = css('--text-muted'), border = css('--border'), text = css('--text');
+    var cfg = {
+      type: 'line',
+      data: {
+        labels: data.map(function (p) { return p.d; }),
+        datasets: [
+          { label: 'Valor de mercat', data: data.map(function (p) { return p.value; }), borderColor: accent, backgroundColor: css('--accent-soft'), fill: true, pointRadius: 0, borderWidth: 2, tension: 0.15 },
+          { label: 'Capital aportat', data: data.map(function (p) { return p.invested; }), borderColor: muted, borderDash: [5, 4], pointRadius: 0, borderWidth: 1.5, stepped: true }
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { labels: { color: text } },
+          tooltip: { callbacks: { label: function (c) { return c.dataset.label + ': ' + money(c.parsed.y); } } }
+        },
+        scales: {
+          x: { ticks: { color: muted, maxTicksLimit: 6, maxRotation: 0 }, grid: { display: false } },
+          y: { ticks: { color: muted, callback: function (v) { return money(v); } }, grid: { color: border } }
+        }
+      }
+    };
+    if (evoChart) evoChart.destroy();
+    evoChart = new Chart($('evolution'), cfg);
+  }
+
+  function renderAllocation(list, total) {
+    var items = list.filter(function (p) { return p.value; });
+    var palette = ['#2563eb', '#16a34a', '#f59e0b', '#dc2626', '#7c3aed', '#0891b2', '#db2777', '#65a30d', '#ea580c', '#475569'];
+    if (allocChart) allocChart.destroy();
+    allocChart = new Chart($('allocation'), {
+      type: 'doughnut',
+      data: {
+        labels: items.map(function (p) { return p.ticker; }),
+        datasets: [{ data: items.map(function (p) { return p.value; }), backgroundColor: items.map(function (_, i) { return palette[i % palette.length]; }), borderColor: css('--surface'), borderWidth: 2 }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: innerWidth < 600 ? 'bottom' : 'right', labels: { color: css('--text') } },
+          tooltip: { callbacks: { label: function (c) { return c.label + ': ' + money(c.parsed) + ' (' + (c.parsed / total * 100).toFixed(1) + '%)'; } } }
+        }
+      }
+    });
+  }
+
+  // ---------- Events ----------
+  $('txform').date.value = today();
+  $('apikey').value = state.settings.apiKey || '';
+  $('basecur').value = state.settings.base || 'EUR';
+
+  $('txform').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target;
+    state.tx.push({
+      date: f.date.value,
+      type: f.type.value,
+      ticker: f.ticker.value.trim().toUpperCase(),
+      shares: parseFloat(f.shares.value),
+      price: parseFloat(f.price.value),
+      currency: f.currency.value,
+      fees: parseFloat(f.fees.value) || 0
+    });
+    save(STORE, state);
+    f.ticker.value = ''; f.shares.value = ''; f.price.value = ''; f.fees.value = '0';
+    refresh(true);
+  });
+
+  $('txs').addEventListener('click', function (e) {
+    var i = e.target.getAttribute('data-del');
+    if (i == null) return;
+    var t = state.tx[i];
+    if (!confirm('Esborrar l\'operació ' + t.date + ' ' + t.ticker + '?')) return;
+    state.tx.splice(i, 1);
+    save(STORE, state);
+    render();
+  });
+
+  $('savesettings').addEventListener('click', function () {
+    var base = $('basecur').value.trim().toUpperCase() || 'EUR';
+    var changed = base !== state.settings.base;
+    state.settings.apiKey = $('apikey').value.trim();
+    state.settings.base = base;
+    save(STORE, state);
+    refresh(changed || !cache.fetchedAt);
+  });
+
+  $('refresh').addEventListener('click', function () { refresh(true); });
+
+  $('range').addEventListener('click', function (e) {
+    var r = e.target.getAttribute('data-r');
+    if (!r) return;
+    range = r;
+    Array.prototype.forEach.call(this.children, function (b) { b.classList.toggle('active', b === e.target); });
+    renderEvolution();
+  });
+
+  $('export').addEventListener('click', function () {
+    var data = { settings: { base: state.settings.base }, tx: state.tx };
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+    a.download = 'cartera-' + today() + '.json';
+    a.click();
+  });
+
+  $('importbtn').addEventListener('click', function () { $('importfile').click(); });
+  $('importfile').addEventListener('change', function (e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    file.text().then(function (txt) {
+      var data = JSON.parse(txt);
+      if (!Array.isArray(data.tx)) throw new Error('format');
+      state.tx = data.tx;
+      if (data.settings && data.settings.base) state.settings.base = data.settings.base;
+      $('basecur').value = state.settings.base;
+      save(STORE, state);
+      refresh(true);
+    }).catch(function () { alert('Fitxer no vàlid.'); });
+    e.target.value = '';
+  });
+
+  // Re-draw charts with the new colours when the theme toggles.
+  new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  refresh(false);
+})();
+</script>
+</body>
+</html>
