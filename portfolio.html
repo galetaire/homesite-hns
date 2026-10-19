@@ -45,8 +45,6 @@
     .pf-status { font-size: 13px; color: var(--text-muted); margin-top: 8px; min-height: 1.4em; }
     .pf-settings { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
     .pf-settings label { display: flex; flex-direction: column; font-size: 13px; color: var(--text-muted); gap: 4px; flex: 1 1 220px; }
-    .pf-range { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-    .pf-range button.active { background: var(--accent-soft); border-color: var(--accent); }
     .pf-chart { position: relative; height: 320px; }
     .pf-chart.small { height: 260px; }
     .pf-empty { color: var(--text-muted); font-size: 14px; }
@@ -68,20 +66,6 @@
 <small class="page-subtitle">Les dades de la cartera es guarden només en aquest navegador (localStorage). Preus via <a href="https://twelvedata.com" target="_blank">Twelve Data</a>, canvi de divises via <a href="https://frankfurter.dev" target="_blank">Frankfurter</a>.</small>
 
 <div class="pf-cards" id="cards"></div>
-
-<div class="subsection">
-  <h3>Evolució de la cartera</h3>
-  <div class="pf-range" id="range">
-    <button class="pf-btn small" data-r="30">1M</button>
-    <button class="pf-btn small" data-r="91">3M</button>
-    <button class="pf-btn small" data-r="182">6M</button>
-    <button class="pf-btn small" data-r="ytd">YTD</button>
-    <button class="pf-btn small" data-r="365">1A</button>
-    <button class="pf-btn small active" data-r="all">Tot</button>
-  </div>
-  <div class="pf-chart"><canvas id="evolution"></canvas></div>
-  <small>(A) Valor de mercat diari de les posicions obertes, comparat amb el capital net aportat.</small>
-</div>
 
 <div class="subsection">
   <h3>Posicions</h3>
@@ -168,8 +152,7 @@
 
   var state = load(STORE, { settings: { apiKey: '', base: 'EUR' }, tx: [] });
   var cache = load(CACHE, { fetchedAt: 0, series: {}, fx: {} });
-  var range = 'all';
-  var evoChart, allocChart;
+  var allocChart;
 
   var $ = function (id) { return document.getElementById(id); };
 
@@ -358,37 +341,6 @@
     return { list: list, realized: realized };
   }
 
-  function computeEvolution() {
-    var ts = tickers();
-    var start = firstDate();
-    if (!start) return [];
-    var dates = {};
-    ts.forEach(function (t) {
-      var s = series(t);
-      if (s) s.points.forEach(function (p) { if (p[0] >= start) dates[p[0]] = true; });
-    });
-    var days = Object.keys(dates).sort();
-    var txs = state.tx.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
-    var shares = {}, invested = 0, ti = 0;
-    return days.map(function (d) {
-      while (ti < txs.length && txs[ti].date <= d) {
-        var t = txs[ti++];
-        var sign = t.type === 'buy' ? 1 : -1;
-        shares[t.ticker] = (shares[t.ticker] || 0) + sign * t.shares;
-        var cash = t.shares * t.price + sign * (t.fees || 0);
-        invested += sign * (toBase(cash, t.currency, t.date) || 0);
-      }
-      var value = 0;
-      Object.keys(shares).forEach(function (k) {
-        var sk = series(k);
-        if (shares[k] <= 1e-9 || !sk) return;
-        var px = at(sk.points, d);
-        if (px != null) value += toBase(shares[k] * px, sk.currency, d) || 0;
-      });
-      return { d: d, value: value, invested: invested };
-    });
-  }
-
   // ---------- Rendering ----------
   function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
 
@@ -446,44 +398,7 @@
           '<td><button class="pf-btn small" data-del="' + x[1] + '" aria-label="Esborra">✕</button></td></tr>';
       }).join('');
 
-    renderEvolution();
     renderAllocation(list, total);
-  }
-
-  function renderEvolution() {
-    var data = computeEvolution();
-    if (range !== 'all' && data.length) {
-      var from = new Date();
-      if (range === 'ytd') from = new Date(from.getFullYear(), 0, 1);
-      else from.setDate(from.getDate() - parseInt(range, 10));
-      var f = from.toISOString().slice(0, 10);
-      data = data.filter(function (p) { return p.d >= f; });
-    }
-    var accent = css('--accent'), muted = css('--text-muted'), border = css('--border'), text = css('--text');
-    var cfg = {
-      type: 'line',
-      data: {
-        labels: data.map(function (p) { return p.d; }),
-        datasets: [
-          { label: 'Valor de mercat', data: data.map(function (p) { return p.value; }), borderColor: accent, backgroundColor: css('--accent-soft'), fill: true, pointRadius: 0, borderWidth: 2, tension: 0.15 },
-          { label: 'Capital aportat', data: data.map(function (p) { return p.invested; }), borderColor: muted, borderDash: [5, 4], pointRadius: 0, borderWidth: 1.5, stepped: true }
-        ]
-      },
-      options: {
-        maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
-        plugins: {
-          legend: { labels: { color: text } },
-          tooltip: { callbacks: { label: function (c) { return c.dataset.label + ': ' + money(c.parsed.y); } } }
-        },
-        scales: {
-          x: { ticks: { color: muted, maxTicksLimit: 6, maxRotation: 0 }, grid: { display: false } },
-          y: { ticks: { color: muted, callback: function (v) { return money(v); } }, grid: { color: border } }
-        }
-      }
-    };
-    if (evoChart) evoChart.destroy();
-    evoChart = new Chart($('evolution'), cfg);
   }
 
   function renderAllocation(list, total) {
@@ -548,14 +463,6 @@
   });
 
   $('refresh').addEventListener('click', function () { refresh(true); });
-
-  $('range').addEventListener('click', function (e) {
-    var r = e.target.getAttribute('data-r');
-    if (!r) return;
-    range = r;
-    Array.prototype.forEach.call(this.children, function (b) { b.classList.toggle('active', b === e.target); });
-    renderEvolution();
-  });
 
   $('export').addEventListener('click', function () {
     var data = { settings: { base: state.settings.base }, tx: state.tx, manual: state.manual || {} };
