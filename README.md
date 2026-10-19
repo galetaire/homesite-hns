@@ -79,7 +79,7 @@ The record update takes about 6 hours to go live. After that, your site will be 
 http://hi.yourdomain/
 ```
 
-> **Note:** To resolve the Handshake DNS protocol, you will need a resolver, since browsers do not support it natively. Consider using [Fingertip](https://github.com/imperviousinc/fingertip). Namebase wallet includes a resolver you can activate. You  can check my site to know if your resolver works http://hi.poopiter.
+> **Note:** To resolve the Handshake DNS protocol, you will need a resolver, since browsers do not support it natively. Consider using [Fingertip-dip](https://github.com/galetaire/fingertip-dit/releases). Namebase wallet includes a resolver you can activate. You  can check my site to know if your resolver works http://hi.poopiter.
 
 
 ## Done!
