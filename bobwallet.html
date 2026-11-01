@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta title="Bob Wallet">
+      <meta description="Bob Wallet">
+      <meta name="lightning" content="lnurlp:galetaire@getalby.com"/>
+      <meta property="og:site_name" content="Welcome to Handshake!"/>
+      <meta property="og:description" content="Handshake site" />
+      <meta property="og:image" content="https://raw.githubusercontent.com/galetaire/galetaireID/refs/heads/main/public/favicon.ico">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+      <link href="http://fonts.googleapis.com/css?family=Questrial" rel="stylesheet" type="text/css">
+      <link href="styles/style.css" rel="stylesheet" type="text/css">
+      <title>Bob Wallet</title>
+</head>
+<body>
+<h1>Manage your names with Bob Wallet 🗝️</h1>
+<div class="navbar">
+  <button onclick="window.location.href='index.html'">Handshake <img src="images/handshake-mark.png" class="icon-inline" width="18px"/></button>
+  <button onclick="window.location.href='fingertip.html'">Fingertip <img src="images/fingertip-mark.png" class="icon-inline" width="18px"/></button>
+  <button onclick="window.location.href='bobwallet.html'">Bob DNS <img src="images/bob-mark.png" class="icon-inline" width="18px"/></button>
+  <button onclick="window.location.href='castell.html'">Umbrel <img src="images/umbrel-mark.png" class="icon-inline" width="18px"/> + Castell <img src="images/castell-mark.png" class="icon-inline" width="18px"/></button>
+  <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+
+<div class="intro">
+  <img src="images/bob-mark.png" alt="Bob Wallet">
+  <p><b>Bob Wallet</b> is a self-custodial wallet and full node to store your <b>Handshake</b> names and coins, and to manage the DNS records of your top-level domains.</p>
+</div>
+
+<p><small>This guide is a work in progress, more steps coming soon.</small></p>
+<!-- Footer-->
+<div id="footer">
+  <script>document.write(new Date().getFullYear())</script> - You can fork this site on <a href="https://github.com/galetaire/homesite-hns" target="_blank">github.com/galetaire</a>.
+</div>
+<script src="theme.js" defer></script>
+</body>
+</html>
