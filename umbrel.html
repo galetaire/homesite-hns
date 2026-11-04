@@ -23,6 +23,7 @@
   <button onclick="window.location.href='bobwallet.html'"><img src="images/bob-mark.png" class="icon-inline" width="18px"/> Bob wallet</button>
   <button onclick="window.location.href='github.html'"><img src="images/github-mark.svg" class="icon-inline" width="18px"/> GitHub + Yeil <img src="images/yeil-mark.png" class="icon-inline" width="20px"/></button>
   <button onclick="window.location.href='umbrel.html'"><img src="images/umbrel-mark.png" class="icon-inline" width="18px"/> Umbrel + Castell <img src="images/castell-mark.png" class="icon-inline" width="18px"/></button>
+  <button onclick="window.location.href='faucet.html'"><img src="images/faucet.png" class="icon-inline" width="18px"/> HNS Faucet </button>
   <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
 </div>
 
@@ -31,7 +32,24 @@
   <p><b>Umbrel</b> is a home server where you can run your own <b>Handshake</b> node. With <b>Castell</b> running on it, you can host your own static <b>https</b> site on a Handshake name, secured with <b>DANE</b> instead of a certificate authority.</p>
 </div>
 
-<p><small>This guide is a work in progress, more steps coming soon.</small></p>
+<div class="guide">
+<h2>How to Host an HTTPS website on a Handshake TLD</h2>
+
+<blockquote>
+  <p><b>Note:</b> This guide does not cover how to obtain a HNS domain or coins, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, and a valid alternative to ICANN DNS.</p>
+</blockquote>
+
+<h3>What You Need</h3>
+
+<ul>
+  <li><a href="https://github.com/shadstoneofficial/bob-wallet/releases" target="_blank"><b>Bob wallet</b></a> or <a href="https://namebase.io/wallet" target="_blank"><b>Namebase wallet</b></a>, with your top-level domain (TLD) and at least 10 HNS coins</li>
+  <li>A <a href="https://dns.yeil.app" target="_blank"><b>Yeil DNS</b></a> account</li>
+  <li>A <b>GitHub</b> account</li>
+</ul>
+
+</div>
+
+
 <!-- Footer-->
 <div id="footer">
   <script>document.write(new Date().getFullYear())</script> - You can fork this site on <a href="https://github.com/galetaire/homesite-hns" target="_blank">github.com/galetaire</a>.
