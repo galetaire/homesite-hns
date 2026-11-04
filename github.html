@@ -27,11 +27,100 @@
 </div>
 
 <div class="intro">
-  <img src="images/yeil-mark.png" alt="GitHub + Yeil">
+  <img src="images/yeilgithub.png" alt="GitHub + Yeil">
   <p>Host a free static site on <b>GitHub Pages</b> and point your <b>Handshake</b> name to it using <b>Yeil DNS</b>, which manages your records without taking custody of your name.</p>
 </div>
 
-<p><small>This guide is a work in progress, more steps coming soon.</small></p>
+<div class="guide">
+<h2>How to Host an HTTP website on a Handshake TLD</h2>
+
+<blockquote>
+  <p><b>Note:</b> This guide does not cover how to obtain a HNS domain or coins, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, and a valid alternative to ICANN DNS.</p>
+</blockquote>
+
+<h3>What You Need</h3>
+
+<ul>
+  <li><a href="https://github.com/shadstoneofficial/bob-wallet/releases" target="_blank"><b>Bob wallet</b></a> or <a href="https://namebase.io/wallet" target="_blank"><b>Namebase wallet</b></a>, with your top-level domain (TLD) and at least 10 HNS coins</li>
+  <li>A <a href="https://dns.yeil.app" target="_blank"><b>Yeil DNS</b></a> account</li>
+  <li>A <b>GitHub</b> account</li>
+</ul>
+
+<h3>1. Bob or Namebase Wallet</h3>
+
+<p>You need a TLD stored in your personal Bob Wallet or Namebase wallet. You can bid for TLDs using Bob or Namebase, which is both a node and a self-custodial wallet that lets you interact directly with the blockchain.</p>
+
+<h3>2. Yeil DNS Account</h3>
+
+<p>Yeil DNS is a service that lets you connect your self-custodied TLD in Bob Wallet to their DNS nameserver, so you can manage your domain records without losing custody of your TLD. At any time, you can use Bob Wallet to delete all records associating your TLD with Yeil, breaking the connection. Yeil is developed by <a href="https://eskimo.software" target="_blank">https://eskimo.software</a>.</p>
+
+<h3>3. Connect Your Domain: Bob Wallet &lt;-&gt; Yeil</h3>
+
+<p>You need to connect your TLD (in Bob Wallet) to Yeil DNS. In your Yeil account, go to <b>New zone</b>, type the TLD name you own, and click <b>Add</b>. Once created it will appear the records you need to add to your TLD in Bob Wallet in order to create the connection.</p>
+
+<img src="images/guidetwo.png" alt="My screenshot" width="700">
+
+<p>In Bob Wallet, go to <b>Domain Manager</b> and click your TLD to open a new screen. In the <b>Records</b> section, add the records provided by Yeil:</p>
+
+<ul>
+  <li><b>2 NS records</b> — for example, <code>a.ns.yeil.org</code>, add a point <code>.</code> at the end if encountering errors <code>b.ns.yeil.org.</code></li>
+  <li><b>1 DS record</b> — using the value shown in your Yeil account</li>
+</ul>
+
+<img src="images/guidethree.png" alt="My screenshot" width="700">
+
+<p>Click <b>Submit</b> to save the changes. Updating takes roughly 10–20 minutes (the time for each block to be minted). After that, you should be able to see the new records on any HNS explorer, such as <a href="https://shakeshift.com" target="_blank">https://shakeshift.com</a>.</p>
+
+<h3>4. Configure GitHub</h3>
+
+<p>Create a <b>New repository</b>, give it a name of your choice, and click <b>Create</b>.</p>
+
+<p>In your new repository, click <b>Add file → Create new file</b>. Name the file <code>index.html</code> and add some HTML content in the editor, for example:</p>
+
+<pre><code>&lt;h1&gt;Hi, it's me!&lt;/h1&gt;</code></pre>
+
+<p>Commit the changes.</p>
+
+<p>Still on GitHub, open the <b>Settings</b> tab and scroll down to the <b>Pages</b> section. Set the source to the <code>main</code> branch and the <code>/ (root)</code> folder, then click <b>Save</b>. After about 5 minutes, refresh the Pages section, a message at the top will show that your site is live at a URL similar to:</p>
+
+<pre><code>https://youraccount.github.io/yourrepository</code></pre>
+
+<p>Visit the site. At this point, your website is online.</p>
+
+<p>In the <b>Pages</b> section, go to <b>Custom domain</b> and add your desired domain. Note that GitHub will not recognize a pure HNS top-level domain (e.g. <code>http://yourdomain</code>), it must be a second-level domain, such as:</p>
+
+<pre><code>hi.yourdomain</code></pre>
+
+<p>Because it is not an ICANN domain, GitHub will report that it doesn't work. Even though it will always show <b>"DNS Check in Progress,"</b> your site will still be online. It takes around 30 minutes to go live.</p>
+
+<img src="images/guidefour.png" alt="My screenshot" width="700">
+
+<h3>5. Set Your Domain: Yeil &lt;-&gt; GitHub</h3>
+
+<p>Finally, connect Yeil with GitHub. In your Yeil DNS zone, click <b>New record</b> for your domain and add an <b>A</b> record:</p>
+
+<table>
+  <thead>
+    <tr><th>Type</th><th>Name</th><th>IPv4 address</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>A</td><td><code>hi.yourdomain</code></td><td><code>185.199.111.153</code> (a GitHub Pages IP)</td></tr>
+  </tbody>
+</table>
+
+<img src="images/guidefive.png" alt="My screenshot" width="700">
+
+<p>The record update takes about 6 hours to go live. After that, your site will be online at your domain:</p>
+
+<pre><code>http://hi.yourdomain/</code></pre>
+
+<blockquote>
+  <p><b>Note:</b> To resolve the Handshake DNS protocol, you will need a resolver, since browsers do not support it natively. Consider using <a href="https://github.com/galetaire/fingertip-dit/releases" target="_blank">Fingertip-dip</a>. Namebase wallet includes a resolver you can activate. You can check my site to know if your resolver works <a href="https://just.belikebill" target="_blank">https://just.belikebill</a>.</p>
+</blockquote>
+
+<h3>Done!</h3>
+</div>
+
 <!-- Footer-->
 <div id="footer">
   <script>document.write(new Date().getFullYear())</script> - You can fork this site on <a href="https://github.com/galetaire/homesite-hns" target="_blank">github.com/galetaire</a>.

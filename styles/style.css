@@ -510,6 +510,54 @@ td a:hover {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+/* Long-form guides (github.html) */
+.guide h2 {
+  margin-top: 32px;
+}
+
+.guide img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.guide blockquote {
+  margin: 20px 0;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+}
+
+.guide blockquote p {
+  margin: 0;
+}
+
+.guide code {
+  padding: 1px 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+  background: var(--surface-2);
+  border-radius: 6px;
+}
+
+.guide pre {
+  padding: 12px 16px;
+  overflow-x: auto;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.guide pre code {
+  padding: 0;
+  background: none;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   html {
