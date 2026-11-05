@@ -558,6 +558,18 @@ td a:hover {
   background: none;
 }
 
+/* Site logo and title, links back to the home page */
+.home-link:link,
+.home-link:visited {
+  color: var(--text);
+  background-image: none;
+}
+
+.home-link:hover,
+.home-link:focus-visible {
+  color: var(--accent-hover);
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   html {
