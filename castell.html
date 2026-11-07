@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta title="Castell - Handshake functional guide">
+      <meta description="Castell - A functional guide for Handshake users">
+      <meta name="lightning" content="lnurlp:galetaire@getalby.com"/>
+      <meta property="og:site_name" content="Handshake functional guide"/>
+      <meta property="og:description" content="Castell - A functional guide for Handshake users" />
+      <meta property="og:image" content="https://raw.githubusercontent.com/galetaire/galetaireID/refs/heads/main/public/favicon.ico">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+      <link href="http://fonts.googleapis.com/css?family=Questrial" rel="stylesheet" type="text/css">
+      <link href="styles/style.css" rel="stylesheet" type="text/css">
+      <title>Castell - Handshake functional guide</title>
+</head>
+<body>
+  <h1><a class="home-link" href="index.html"><img src="images/handshake-mark.png" class="icon-inline" width="60px" alt=""/> A functional guide for Handshake users</a></h1>
+<div class="navbar">
+  <button onclick="window.location.href='fingertip.html'"><img src="images/fingertip-mark.png" class="icon-inline" width="18px"/> Fingertip</button>
+  <button onclick="window.location.href='bobwallet.html'"><img src="images/bob-mark.png" class="icon-inline" width="18px"/> Bob wallet</button>
+  <button onclick="window.location.href='finestra.html'"><img src="images/finestra-mark.png" class="icon-inline" width="18px"/> Finestra</button>
+  <button onclick="window.location.href='yeil.html'"><img src="images/yeil-mark.png" class="icon-inline" width="20px"/> Yeil DNS</button>
+  <button onclick="window.location.href='castell.html'"><img src="images/castell-mark.png" class="icon-inline" width="18px"/> Castell</button>
+  <button onclick="window.location.href='faucet.html'"><img src="images/faucet-mark.png" class="icon-inline" width="18px"/> Coins faucet</button>
+  <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+
+<div class="intro">
+  <img src="images/umbrelcastell.png" alt="Castell">
+  <p><b>Umbrel</b> is a home server where you can run your own <b>Handshake</b> node. With <b>Castell</b> running on it, you can host your own static <b>https</b> site on a Handshake name, secured with <b>DANE</b> instead of a certificate authority.</p>
+</div>
+
+<div class="guide">
+<h2>How to Host an HTTPS website on a Handshake TLD</h2>
+
+<blockquote>
+  <p><b>Note:</b> This guide does not cover how to obtain a HNS domain or coins, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, and a valid alternative to ICANN DNS.</p>
+</blockquote>
+
+<h3>What You Need</h3>
+
+<ul>
+  <li><a href="https://github.com/shadstoneofficial/bob-wallet/releases" target="_blank"><b>Bob wallet</b></a> or <a href="https://namebase.io/wallet" target="_blank"><b>Namebase wallet</b></a>, with your top-level domain (TLD) and at least 10 HNS coins</li>
+  <li>A <a href="https://dns.yeil.app" target="_blank"><b>Yeil DNS</b></a> account</li>
+  <li>A <b>GitHub</b> account</li>
+</ul>
+
+</div>
+
+
+<!-- Footer-->
+<div id="footer">
+  <script>document.write(new Date().getFullYear())</script> - You can fork this site on <a href="https://github.com/galetaire/homesite-hns" target="_blank">github.com/galetaire</a>.
+</div>
+<script src="theme.js" defer></script>
+</body>
+</html>
