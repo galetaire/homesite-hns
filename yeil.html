@@ -29,37 +29,55 @@
 
 <div class="intro">
   <img src="images/yeilgithub.png" alt="Yeil DNS">
-  <p>Host a free static site on <b>GitHub Pages</b> and point your <b>Handshake</b> name to it using <b>Yeil DNS</b>, which manages your records without taking custody of your name.</p>
-</div>
+<p>Host a free static site on <strong>GitHub Pages</strong> and point your Handshake name to it with <strong>Yeil DNS</strong>, which manages your records without taking custody of your name.</p></div>
 
 <div class="guide">
 <h2>How to Host an HTTP website on a Handshake TLD</h2>
 
 <blockquote>
-  <p><b>Note:</b> This guide does not cover how to obtain a HNS domain or coins, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, and a valid alternative to ICANN DNS.</p>
+<p><strong>Note:</strong> <a href="https://dns.yeil.app" target="_blank" rel="noopener noreferrer"><strong>Yeil DNS</strong></a> is a DNS hosting service that lets you manage your name records from a self-custodial wallet (one TLD free; unlimited for $12/year). This guide uses Bob, but <a href="https://namebase.io/wallet" target="_blank" rel="noopener noreferrer"><strong>Namebase Wallet</strong></a>, from the same team behind Yeil, is another great option that can be used, and I encourage you to try too.</p>
 </blockquote>
 
-<h3>What You Need</h3>
+<nav class="toc" aria-label="On this page">
+  <b>On this page</b>
+  <ul>
+    <li><a href="#what-you-need">0. What you need</a></li>
+    <li><a href="#wallet">1. Wallet with a TLD and some coins</a></li>
+    <li><a href="#yeil-account">2. Yeil DNS account</a></li>
+    <li><a href="#connect-bob-yeil">3. Connect your domain: Bob Wallet ↔ Yeil</a></li>
+    <li><a href="#configure-github">4. Configure GitHub</a></li>
+    <li><a href="#connect-yeil-github">5. Set your domain: Yeil ↔ GitHub</a></li>
+  </ul>
+</nav>
+
+<h3 id="what-you-need">0. What you need</h3>
 
 <ul>
-  <li><a href="https://github.com/shadstoneofficial/bob-wallet/releases" target="_blank"><b>Bob wallet</b></a> or <a href="https://namebase.io/wallet" target="_blank"><b>Namebase wallet</b></a>, with your top-level domain (TLD) and at least 10 HNS coins</li>
-  <li>A <a href="https://dns.yeil.app" target="_blank"><b>Yeil DNS</b></a> account</li>
-  <li>A <b>GitHub</b> account</li>
+  <li><a href="https://github.com/shadstoneofficial/bob-wallet/releases" target="_blank" rel="noopener noreferrer"><b>Bob wallet</b></a> or <a href="https://namebase.io/wallet" target="_blank" rel="noopener noreferrer"><b>Namebase wallet</b></a>, with your top-level domain (TLD) and some HNS coins.</li>
+  <li>A <a href="https://dns.yeil.app" target="_blank" rel="noopener noreferrer"><b>Yeil DNS</b></a> account.</li>
+  <li>A <b>GitHub</b> account.</li>
 </ul>
 
-<h3>1. Bob or Namebase Wallet</h3>
+<h3 id="wallet">1. Wallet with a TLD and some coins</h3>
 
-<p>You need a TLD stored in your personal Bob Wallet or Namebase wallet. You can bid for TLDs using Bob or Namebase, which is both a node and a self-custodial wallet that lets you interact directly with the blockchain.</p>
+<p>You'll need a TLD held in your own Bob Wallet or Namebase Wallet, plus a small amount of HNS (10 HNS is more than enough). If you're new to Handshake, you can get some HNS from the <a href="faucet.html"><strong>faucet</strong></a>.</p>
 
-<h3>2. Yeil DNS Account</h3>
+<p>Once you have some HNS, you can bid on TLDs in name auctions using Bob or Namebase. Both are self-custodial wallets that let you take part in the auctions directly.</p>
 
-<p>Yeil DNS is a service that lets you connect your self-custodied TLD in Bob Wallet to their DNS nameserver, so you can manage your domain records without losing custody of your TLD. At any time, you can use Bob Wallet to delete all records associating your TLD with Yeil, breaking the connection. Yeil is developed by <a href="https://eskimo.software" target="_blank">https://eskimo.software</a>.</p>
+<h3 id="yeil-account">2. Yeil DNS account</h3>
 
-<h3>3. Connect Your Domain: Bob Wallet &lt;-&gt; Yeil</h3>
+<p>Yeil DNS is a service that lets you point your self-custodied TLD to its nameservers, so you can manage your domain records without giving up custody of your TLD. At any time, you can use your wallet to remove the records that point your TLD to Yeil, ending the connection. Yeil is developed by <a href="https://eskimo.software" target="_blank" rel="noopener noreferrer"><b>eskimo</b></a>.</p>
 
-<p>You need to connect your TLD (in Bob Wallet) to Yeil DNS. In your Yeil account, go to <b>New zone</b>, type the TLD name you own, and click <b>Add</b>. Once created it will appear the records you need to add to your TLD in Bob Wallet in order to create the connection.</p>
+<h3 id="connect-bob-yeil">3. Connect your domain: Bob Wallet ↔ Yeil</h3>
 
-<img src="images/yeil1.png" alt="My screenshot" width="700">
+<p>You need to connect your TLD (in your wallet) to Yeil DNS. In your Yeil account, go to <b>New zone</b>, type the TLD name you own, and click <b>Add</b>. Once created it will appear the records you need to add to your TLD in Bob Wallet in order to create the connection.</p>
+
+<div class="window">
+  <div class="window-bar">🐦‍⬛ Yeil DNS: records for your zone</div>
+  <div class="collage">
+    <a class="collage-item wide" href="images/yeil1.png"><img src="images/yeil1.png" alt="Yeil DNS zone page showing the nameservers and DS record to add at your registrar" loading="lazy"><span class="collage-caption"><b>1</b> Copy the nameservers and the DS record from Yeil</span></a>
+  </div>
+</div>
 
 <p>In Bob Wallet, go to <b>Domain Manager</b> and click your TLD to open a new screen. In the <b>Records</b> section, add the records provided by Yeil:</p>
 
@@ -68,11 +86,16 @@
   <li><b>1 DS record</b> — using the value shown in your Yeil account</li>
 </ul>
 
-<img src="images/yeil2.png" alt="My screenshot" width="700">
+<div class="window">
+  <div class="window-bar">🐈‍⬛ Bob Wallet: Domain Manager</div>
+  <div class="collage">
+    <a class="collage-item wide" href="images/yeil2.png"><img src="images/yeil2.png" alt="Bob Wallet Domain Manager with the DS and NS records added" loading="lazy"><span class="collage-caption"><b>2</b> Add the records to your TLD and click Submit</span></a>
+  </div>
+</div>
 
-<p>Click <b>Submit</b> to save the changes. Updating takes roughly 10–20 minutes (the time for each block to be minted). After that, you should be able to see the new records on any HNS explorer, such as <a href="https://shakeshift.com" target="_blank">https://shakeshift.com</a>.</p>
+<p>Click <b>Submit</b> to save the changes. Updating takes roughly 10–20 minutes (the time for each block to be minted). After that, you should be able to see the new records on any HNS explorer, such as <a href="https://shakeshift.com" target="_blank" rel="noopener noreferrer"><b>Shakeshift</b></a>.</p>
 
-<h3>4. Configure GitHub</h3>
+<h3 id="configure-github">4. Configure GitHub</h3>
 
 <p>Create a <b>New repository</b>, give it a name of your choice, and click <b>Create</b>.</p>
 
@@ -94,9 +117,14 @@
 
 <p>Because it is not an ICANN domain, GitHub will report that it doesn't work. Even though it will always show <b>"DNS Check in Progress,"</b> your site will still be online. It takes around 30 minutes to go live.</p>
 
-<img src="images/yeil3.png" alt="My screenshot" width="700">
+<div class="window">
+  <div class="window-bar">🐈 GitHub: Pages settings</div>
+  <div class="collage">
+    <a class="collage-item wide" href="images/yeil3.png"><img src="images/yeil3.png" alt="GitHub Pages settings with the custom domain hi.belikebill and DNS Check in Progress" loading="lazy"><span class="collage-caption"><b>3</b> Add your custom domain, “DNS Check in Progress” is expected</span></a>
+  </div>
+</div>
 
-<h3>5. Set Your Domain: Yeil &lt;-&gt; GitHub</h3>
+<h3 id="connect-yeil-github">5. Set your domain: Yeil ↔ GitHub</h3>
 
 <p>Finally, connect Yeil with GitHub. In your Yeil DNS zone, click <b>New record</b> for your domain and add an <b>A</b> record:</p>
 
@@ -109,17 +137,20 @@
   </tbody>
 </table>
 
-<img src="images/yeil4.png" alt="My screenshot" width="700">
+<div class="window">
+  <div class="window-bar">🐦‍⬛ Yeil DNS: new A record</div>
+  <div class="collage">
+    <a class="collage-item wide" href="images/yeil4.png"><img src="images/yeil4.png" alt="Yeil DNS new record form with an A record pointing hi.belikebill to 185.199.111.153" loading="lazy"><span class="collage-caption"><b>4</b> Add an A record pointing to a GitHub Pages IP</span></a>
+  </div>
+</div>
 
-<p>The record update takes about 6 hours to go live. After that, your site will be online at your domain:</p>
+<p>The record update takes about 6 hours to go live. After that, your site will be online at your domain 🎉:</p>
 
 <pre><code>http://hi.yourdomain/</code></pre>
 
 <blockquote>
-  <p><b>Note:</b> To resolve the Handshake DNS protocol, you will need a resolver, since browsers do not support it natively. Consider using <a href="https://github.com/galetaire/fingertip-dit/releases" target="_blank">Fingertip-dip</a>. Namebase wallet includes a resolver you can activate. You can check my site to know if your resolver works <a href="https://just.belikebill" target="_blank">https://just.belikebill</a>.</p>
+  <p><b>Note:</b> To resolve the Handshake DNS protocol, you will need a resolver, since browsers do not support it natively. Consider using <a href="fingertip.html"><b>Fingertip</b></a>. Namebase wallet includes a resolver you can activate too. You can check my site to know if your resolver works <a href="https://just.belikebill" target="_blank" rel="noopener noreferrer">https://just.belikebill</a>.</p>
 </blockquote>
-
-<h3>Done!</h3>
 </div>
 
 <!-- Footer-->
@@ -127,5 +158,7 @@
   Repository of the current site <a href="https://github.com/galetaire/homesite-hns" target="_blank">github.com/galetaire</a>. You can reach me by email at <a href="mailto:spainhousing@yeilmail.com">spainhousing@yeilmail.com</a>.
 </div>
 <script src="theme.js" defer></script>
+<script src="collage.js" defer></script>
+<script src="sections.js" defer></script>
 </body>
 </html>
