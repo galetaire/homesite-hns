@@ -43,7 +43,13 @@
   <b>On this page</b>
   <ul>
     <li><a href="#what-you-need">0. What you need</a></li>
-    <li><a href="#installing">1. Installing Fingertip</a></li>
+    <li><a href="#installing">1. Installing Fingertip</a>
+      <ul>
+        <li><a href="#windows">Windows</a></li>
+        <li><a href="#linux">Linux (x86_64)</a></li>
+        <li><a href="#issues">Common issues</a></li>
+      </ul>
+    </li>
     <li><a href="#uninstalling">2. Uninstalling Fingertip</a></li>
   </ul>
 </nav>
@@ -60,65 +66,105 @@
 
 <p>With Fingertip installed, you can browse Handshake addresses and the regular web as well.</p>
 
-<h4>Windows 🪟</h4>
+<h4 id="windows">Windows 🪟</h4>
 
 <p>Run <code>Fingertip-dit-0.0.4.msi</code>. Before you do:</p>
 
 <ul>
-  <li><strong>Quit old Fingertip first</strong> (tray icon → Quit), if you have and older version.</li>
-  <li>It's a per-user install into <code>%LOCALAPPDATA%\Fingertip</code> and needs no admin rights.
-    It upgrades an existing Fingertip 0.0.3 in place.</li>
+  <li><strong>Quit old Fingertip first</strong> (tray icon → Quit), if you have an older version.</li>
+  <li>It's a per-user install into <code>%LOCALAPPDATA%\Fingertip</code> and needs no admin rights. It upgrades an existing Fingertip 0.0.3 in place.</li>
   <li>The files aren't code-signed, so Microsoft Defender SmartScreen may warn: <strong>More info → Run anyway</strong>.</li>
 </ul>
 
 <div class="window">
-  <div class="window-bar"></span>🪟 Fingertip-dit setup screenshots on Windows</div>
+  <div class="window-bar">🪟 Fingertip-dit setup screenshots on Windows</div>
   <div class="collage">
-    <a class="collage-item wide" href="images/fingertip1.png"><img src="images/fingertip1.png" alt="Fingertip-dit in the Windows start menu" loading="lazy"><span class="collage-caption"><b>1</b>Install and open Fingertip-dit</span></a>
+    <a class="collage-item wide" href="images/fingertip1.png"><img src="images/fingertip1.png" alt="Fingertip-dit in the Windows start menu" loading="lazy"><span class="collage-caption"><b>1</b> Install and open Fingertip-dit</span></a>
     <a class="collage-item" href="images/fingertip2.png"><img src="images/fingertip2.png" alt="Dialog asking to automatically configure Fingertip" loading="lazy"><span class="collage-caption"><b>2</b> Allow automatic setup</span></a>
     <a class="collage-item tall" href="images/fingertip3.png"><img src="images/fingertip3.png" alt="Windows security warning to install the DNSSEC certificate" loading="lazy"><span class="collage-caption"><b>3</b> Trust its certificate</span></a>
     <a class="collage-item" href="images/fingertip4.png"><img src="images/fingertip4.png" alt="Fingertip status page while the resolver is syncing" loading="lazy"><span class="collage-caption"><b>4</b> Wait while it syncs</span></a>
     <a class="collage-item" href="images/fingertip5.png"><img src="images/fingertip5.png" alt="Fingertip status page showing the resolver is ready" loading="lazy"><span class="collage-caption"><b>5</b> Ready to resolve</span></a>
-    <a class="collage-item wide" href="images/fingertip6.png"><img src="images/fingertip6.png" alt="The belikebill Handshake site open in Firefox" loading="lazy"><span class="collage-caption"><b>6</b> Visit a Handshake site, i.e. https://belikebill/</span></a>
+    <a class="collage-item wide" href="images/fingertip6.png"><img src="images/fingertip6.png" alt="The belikebill Handshake site open in Firefox" loading="lazy"><span class="collage-caption"><b>6</b> Visit a Handshake site, e.g. https://belikebill/</span></a>
   </div>
 </div>
 
-<h4>Linux (x86_64) 🐧</h4>
+<h4 id="linux">Linux (x86_64) 🐧</h4>
 
 <pre><code class="language-sh">chmod +x Fingertip-dit-0.0.4-x86_64.AppImage
 ./Fingertip-dit-0.0.4-x86_64.AppImage</code></pre>
 
 <ul>
-  <li>Needs glibc 2.35 or newer and GTK 3 from your distro (Ubuntu 22.04+, Debian 12+,
-    Fedora 36+, Arch). Some distros need <code>libfuse2</code> to run AppImages; without it, run with
-    <code>--appimage-extract-and-run</code>.</li>
-  <li>On GNOME, the tray icon needs the <em>AppIndicator and KStatusNotifierItem Support</em>
-    extension (Ubuntu ships it).</li>
+  <li>Needs glibc 2.35 or newer and GTK 3 from your distro (Ubuntu 22.04+, Debian 12+, Fedora 36+, Arch). Some distros need <code>libfuse2</code> to run AppImages; without it, run with <code>--appimage-extract-and-run</code>.</li>
+  <li>On GNOME, the tray icon needs the <em>AppIndicator and KStatusNotifierItem Support</em> extension (Ubuntu ships it).</li>
   <li><code>hnsd</code> saves its headers in <code>~/.local/share/Fingertip-dit/hnsd-data</code>.</li>
-  <li>Fingertip doesn't configure Linux automatically (that's unchanged from 0.0.3). On
-    first launch it opens its setup page, which walks you through setting your browser's
-    proxy and trusting its certificate.</li>
+  <li>Fingertip doesn't configure Linux automatically. On first launch it opens its setup page, which walks you through setting your browser's proxy and trusting its certificate.</li>
 </ul>
 
-<p>On first start, lookups fail for about 2 minutes while <code>hnsd</code> syncs from its checkpoint.
-After that, names resolve.</p>
-
 <div class="window">
-  <div class="window-bar"></span>🐧 Fingertip-dit setup screenshots on Linux</div>
+  <div class="window-bar">🐧 Fingertip-dit setup screenshots on Linux</div>
   <div class="collage">
-    <a class="collage-item wide" href="images/fingertip1.png"><img src="images/fingertip1.png" alt="Fingertip-dit in the Windows start menu" loading="lazy"><span class="collage-caption"><b>1</b>Install and open Fingertip-dit</span></a>
-    <a class="collage-item" href="images/fingertip2.png"><img src="images/fingertip2.png" alt="Dialog asking to automatically configure Fingertip" loading="lazy"><span class="collage-caption"><b>2</b> Allow automatic setup</span></a>
-    <a class="collage-item tall" href="images/fingertip3.png"><img src="images/fingertip3.png" alt="Windows security warning to install the DNSSEC certificate" loading="lazy"><span class="collage-caption"><b>3</b> Trust its certificate</span></a>
-    <a class="collage-item" href="images/fingertip4.png"><img src="images/fingertip4.png" alt="Fingertip status page while the resolver is syncing" loading="lazy"><span class="collage-caption"><b>4</b> Wait while it syncs</span></a>
-    <a class="collage-item" href="images/fingertip5.png"><img src="images/fingertip5.png" alt="Fingertip status page showing the resolver is ready" loading="lazy"><span class="collage-caption"><b>5</b> Ready to resolve</span></a>
-    <a class="collage-item wide" href="images/fingertip6.png"><img src="images/fingertip6.png" alt="The belikebill Handshake site open in Firefox" loading="lazy"><span class="collage-caption"><b>6</b> Visit a Handshake site, i.e. https://belikebill/</span></a>
+    <a class="collage-item wide" href="images/fingertiplinux1.png"><img src="images/fingertiplinux1.png" alt="Downloaded AppImage file with its context menu open on Properties" loading="lazy"><span class="collage-caption"><b>1</b> Download the AppImage and open its Properties</span></a>
+    <a class="collage-item" href="images/fingertiplinux2.png"><img src="images/fingertiplinux2.png" alt="File properties with the option to allow executing the file as a program" loading="lazy"><span class="collage-caption"><b>2</b> Tick “Allow executing file as program”</span></a>
+    <a class="collage-item tall" href="images/fingertiplinux3.png"><img src="images/fingertiplinux3.png" alt="Launching the Fingertip-dit AppImage" loading="lazy"><span class="collage-caption"><b>3</b> Run the AppImage</span></a>
+    <a class="collage-item" href="images/fingertiplinux4.png"><img src="images/fingertiplinux4.png" alt="Fingertip-dit icon in the top bar with its menu open" loading="lazy"><span class="collage-caption"><b>4</b> Click the Fingertip icon in the top bar</span></a>
+    <a class="collage-item" href="images/fingertiplinux5.png"><img src="images/fingertiplinux5.png" alt="Fingertip setup page open in Firefox while the resolver syncs" loading="lazy"><span class="collage-caption"><b>5</b> Firefox opens and Fingertip starts syncing</span></a>
+    <a class="collage-item wide" href="images/fingertiplinux6.png"><img src="images/fingertiplinux6.png" alt="Fingertip setup page with the certificate download and the proxy address" loading="lazy"><span class="collage-caption"><b>6</b> Download the certificate and copy the proxy address</span></a>
+    <a class="collage-item wide" href="images/fingertiplinux7.png"><img src="images/fingertiplinux7.png" alt="Firefox connection settings with the proxy address pasted in" loading="lazy"><span class="collage-caption"><b>7</b> Paste the address into Firefox's proxy settings</span></a>
+    <a class="collage-item" href="images/fingertiplinux8.png"><img src="images/fingertiplinux8.png" alt="Fingertip setup page showing browser configuration set to Yes" loading="lazy"><span class="collage-caption"><b>8</b> If everything worked, “Browser configuration” changes to Yes</span></a>
+    <a class="collage-item tall" href="images/fingertiplinux9.png"><img src="images/fingertiplinux9.png" alt="Firefox Certificate Manager on the Authorities tab" loading="lazy"><span class="collage-caption"><b>9</b> In Firefox's Certificate Manager, open the Authorities tab</span></a>
+    <a class="collage-item" href="images/fingertiplinux10.png"><img src="images/fingertiplinux10.png" alt="Importing the Fingertip certificate file in Firefox" loading="lazy"><span class="collage-caption"><b>10</b> Import the certificate you just downloaded</span></a>
+    <a class="collage-item" href="images/fingertiplinux11.png"><img src="images/fingertiplinux11.png" alt="Firefox dialog asking which purposes to trust the certificate for" loading="lazy"><span class="collage-caption"><b>11</b> Trust it to identify websites (email is optional)</span></a>
+    <a class="collage-item wide" href="images/fingertiplinux12.png"><img src="images/fingertiplinux12.png" alt="A Handshake site loaded in Firefox" loading="lazy"><span class="collage-caption"><b>12</b> Visit a Handshake site, e.g. https://namebase/</span></a>
   </div>
 </div>
 
+<h4 id="issues">Common issues 🪛</h4>
+
+<details>
+  <summary><strong>The old certificate has expired</strong></summary>
+  <p>Certificates have a limited lifespan, so they eventually expire. To fix this, delete the old certificate manually and then reinstall Fingertip. Once it’s deleted, you’re ready to reinstall. On Windows, the certificate is stored in <code>C:\Users\YOURUSER\AppData\Roaming\Fingertip</code>.</p>
+  <div class="window">
+    <div class="window-bar">The old certificate has expired</div>
+    <div class="collage">
+      <a class="collage-item wide" href="images/fingertip7.png"><img src="images/fingertip7.png" alt="Delete the old certificate and reinstall" loading="lazy"><span class="collage-caption"><b>1</b> Delete the old certificate and reinstall</span></a>
+    </div>
+  </div>
+</details>
+
+<details>
+  <summary><strong>Using a different browser, such as Chrome or Brave</strong></summary>
+  <p>Unlike Firefox, browsers such as Chrome and Brave use your operating system's proxy settings (Windows, macOS or Linux). So you need to add the proxy address to your system settings instead.</p>
+  <div class="window">
+    <div class="window-bar">Using a different browser, such as Chrome or Brave</div>
+    <div class="collage">
+      <a class="collage-item wide" href="images/fingertip8.png"><img src="images/fingertip8.png" alt="Add the proxy address to your system settings" loading="lazy"><span class="collage-caption"><b>1</b> Add the proxy address to your system settings</span></a>
+    </div>
+  </div>
+</details>
+
+<details>
+  <summary><strong>Fingertip doesn't open at startup on Linux</strong></summary>
+  <p>For Linux to start Fingertip at login, the AppImage needs to stay in a permanent location. If it's somewhere temporary, Linux won't find it, so Fingertip won't run at startup. Save the AppImage in a folder such as <code>~/Applications</code> or <code>~/Documents</code>, not in Downloads.</p>
+  <p>If you already installed from a temporary folder, go to <code>~/.config/autostart/</code> and edit the <code>Exec=</code> line in the <code>fingertip.desktop</code> file so it points to the new location.</p>
+  <pre><code class="language-ini">[Desktop Entry]
+Type=Application
+Name=Fingertip
+Exec=/home/<var>YOURUSER</var>/Documents/Fingertip.AppImage
+X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Delay=5</code></pre>
+  <div class="window">
+    <div class="window-bar">Fingertip doesn't open at startup on Linux</div>
+    <div class="collage">
+      <a class="collage-item wide" href="images/fingertiplinux13.png"><img src="images/fingertiplinux13.png" alt="File manager showing hidden folders in the home folder, including .config" loading="lazy"><span class="collage-caption"><b>1</b> Press <kbd>Ctrl</kbd> + <kbd>H</kbd> to show hidden files, then open <code>.config</code></span></a>
+      <a class="collage-item wide" href="images/fingertiplinux14.png"><img src="images/fingertiplinux14.png" alt="The .config folder with the autostart folder" loading="lazy"><span class="collage-caption"><b>2</b> Open the <code>autostart</code> folder</span></a>
+      <a class="collage-item wide" href="images/fingertiplinux15.png"><img src="images/fingertiplinux15.png" alt="The fingertip.desktop file open in a text editor" loading="lazy"><span class="collage-caption"><b>3</b> Update the <code>Exec=</code> line with the new location</span></a>
+    </div>
+  </div>
+</details>
+
 <h3 id="uninstalling">2. Uninstalling Fingertip</h3>
 
-<p>If you ever want to fully uninstall Fingertip-dit, there's a step-by-step guide, both for Windows and Linux, in the project's <a href="https://github.com/galetaire/fingertip-dit#uninstall" target="_blank" rel="noopener noreferrer">README</a>.</p>
-
+<p>If you ever want to fully uninstall Fingertip-dit, cleaning all files from your system, there's a step-by-step guide, both for Windows and Linux, in the project's <a href="https://github.com/galetaire/fingertip-dit#uninstall" target="_blank" rel="noopener noreferrer">README</a>.</p>
 </div>
 <!-- Footer-->
 <div id="footer">
@@ -126,5 +172,6 @@ After that, names resolve.</p>
 </div>
 <script src="theme.js" defer></script>
 <script src="collage.js" defer></script>
+<script src="sections.js" defer></script>
 </body>
 </html>

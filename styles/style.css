@@ -594,6 +594,13 @@ td a:hover {
   list-style: none;
 }
 
+.toc ul ul {
+  margin: 2px 0 2px 4px;
+  padding-left: 12px;
+  font-size: 13px;
+  border-left: 1px solid var(--border);
+}
+
 .toc li {
   padding: 2px 0;
 }
@@ -684,10 +691,6 @@ td a:hover {
   border-radius: 999px;
 }
 
-.collage-caption b {
-  margin-right: 4px;
-}
-
 .lightbox {
   max-width: min(1100px, 94vw);
   padding: 12px;
@@ -743,6 +746,48 @@ td a:hover {
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: 120px;
   }
+}
+
+/* Collapsible guide subsections (sections.js) */
+.section-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s ease;
+}
+
+.section-toggle:hover {
+  border-color: var(--accent);
+}
+
+.section-toggle::after {
+  content: "›";
+  font-size: 1.3em;
+  line-height: 1;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+
+.section-toggle[aria-expanded="true"]::after {
+  transform: rotate(90deg);
+}
+
+.guide h4:has(.section-toggle) {
+  margin: 12px 0;
+}
+
+.section-body {
+  padding: 0 4px 8px;
 }
 
 /* Mobile Responsiveness */
