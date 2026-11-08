@@ -36,22 +36,95 @@
 <h2>How to resolve Handshake names on the internet</h2>
 
 <blockquote>
-  <p><b>Note:</b> This guide does not cover how to obtain a HNS domain or coins, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, and a valid alternative to ICANN DNS.</p>
+  <p><b>Note:</b> The original <a href="https://github.com/imperviousinc/fingertip" target="_blank" rel="noopener noreferrer"><strong>Fingertip</strong></a>, by <a href="https://impervious.com/fingertip" target="_blank" rel="noopener noreferrer"><strong>Impervious Inc.</strong></a>, is no longer maintained. For this guide, I'll be using my personal fork, <a href="https://github.com/galetaire/fingertip-dit" target="_blank" rel="noopener noreferrer"><strong>Fingertip-dit</strong></a>, available for Windows and Linux. I'm not a macOS user, but feel free to fork the project or let me know if you'd like a macOS version.</p>
 </blockquote>
 
-<h3>What You Need</h3>
+<nav class="toc" aria-label="On this page">
+  <b>On this page</b>
+  <ul>
+    <li><a href="#what-you-need">0. What you need</a></li>
+    <li><a href="#installing">1. Installing Fingertip</a></li>
+    <li><a href="#uninstalling">2. Uninstalling Fingertip</a></li>
+  </ul>
+</nav>
+
+<h3 id="what-you-need">0. What you need</h3>
 
 <ul>
-  <li><a href="https://github.com/shadstoneofficial/bob-wallet/releases" target="_blank"><b>Bob wallet</b></a> or <a href="https://namebase.io/wallet" target="_blank"><b>Namebase wallet</b></a>, with your top-level domain (TLD) and at least 10 HNS coins</li>
-  <li>A <a href="https://dns.yeil.app" target="_blank"><b>Yeil DNS</b></a> account</li>
-  <li>A <b>GitHub</b> account</li>
+  <li>A computer running Windows or Linux.</li>
+  <li><a href="https://github.com/galetaire/fingertip-dit/releases" target="_blank" rel="noopener noreferrer"><strong>Fingertip-dit</strong></a> for your OS, downloads are available on the releases page.</li>
+  <li>A web browser, preferably Firefox.</li>
 </ul>
+
+<h3 id="installing">1. Installing Fingertip</h3>
+
+<p>With Fingertip installed, you can browse Handshake addresses and the regular web as well.</p>
+
+<h4>Windows 🪟</h4>
+
+<p>Run <code>Fingertip-dit-0.0.4.msi</code>. Before you do:</p>
+
+<ul>
+  <li><strong>Quit old Fingertip first</strong> (tray icon → Quit), if you have and older version.</li>
+  <li>It's a per-user install into <code>%LOCALAPPDATA%\Fingertip</code> and needs no admin rights.
+    It upgrades an existing Fingertip 0.0.3 in place.</li>
+  <li>The files aren't code-signed, so Microsoft Defender SmartScreen may warn: <strong>More info → Run anyway</strong>.</li>
+</ul>
+
+<div class="window">
+  <div class="window-bar"></span>🪟 Fingertip-dit setup screenshots on Windows</div>
+  <div class="collage">
+    <a class="collage-item wide" href="images/fingertip1.png"><img src="images/fingertip1.png" alt="Fingertip-dit in the Windows start menu" loading="lazy"><span class="collage-caption"><b>1</b>Install and open Fingertip-dit</span></a>
+    <a class="collage-item" href="images/fingertip2.png"><img src="images/fingertip2.png" alt="Dialog asking to automatically configure Fingertip" loading="lazy"><span class="collage-caption"><b>2</b> Allow automatic setup</span></a>
+    <a class="collage-item tall" href="images/fingertip3.png"><img src="images/fingertip3.png" alt="Windows security warning to install the DNSSEC certificate" loading="lazy"><span class="collage-caption"><b>3</b> Trust its certificate</span></a>
+    <a class="collage-item" href="images/fingertip4.png"><img src="images/fingertip4.png" alt="Fingertip status page while the resolver is syncing" loading="lazy"><span class="collage-caption"><b>4</b> Wait while it syncs</span></a>
+    <a class="collage-item" href="images/fingertip5.png"><img src="images/fingertip5.png" alt="Fingertip status page showing the resolver is ready" loading="lazy"><span class="collage-caption"><b>5</b> Ready to resolve</span></a>
+    <a class="collage-item wide" href="images/fingertip6.png"><img src="images/fingertip6.png" alt="The belikebill Handshake site open in Firefox" loading="lazy"><span class="collage-caption"><b>6</b> Visit a Handshake site, i.e. https://belikebill/</span></a>
+  </div>
+</div>
+
+<h4>Linux (x86_64) 🐧</h4>
+
+<pre><code class="language-sh">chmod +x Fingertip-dit-0.0.4-x86_64.AppImage
+./Fingertip-dit-0.0.4-x86_64.AppImage</code></pre>
+
+<ul>
+  <li>Needs glibc 2.35 or newer and GTK 3 from your distro (Ubuntu 22.04+, Debian 12+,
+    Fedora 36+, Arch). Some distros need <code>libfuse2</code> to run AppImages; without it, run with
+    <code>--appimage-extract-and-run</code>.</li>
+  <li>On GNOME, the tray icon needs the <em>AppIndicator and KStatusNotifierItem Support</em>
+    extension (Ubuntu ships it).</li>
+  <li><code>hnsd</code> saves its headers in <code>~/.local/share/Fingertip-dit/hnsd-data</code>.</li>
+  <li>Fingertip doesn't configure Linux automatically (that's unchanged from 0.0.3). On
+    first launch it opens its setup page, which walks you through setting your browser's
+    proxy and trusting its certificate.</li>
+</ul>
+
+<p>On first start, lookups fail for about 2 minutes while <code>hnsd</code> syncs from its checkpoint.
+After that, names resolve.</p>
+
+<div class="window">
+  <div class="window-bar"></span>🐧 Fingertip-dit setup screenshots on Linux</div>
+  <div class="collage">
+    <a class="collage-item wide" href="images/fingertip1.png"><img src="images/fingertip1.png" alt="Fingertip-dit in the Windows start menu" loading="lazy"><span class="collage-caption"><b>1</b>Install and open Fingertip-dit</span></a>
+    <a class="collage-item" href="images/fingertip2.png"><img src="images/fingertip2.png" alt="Dialog asking to automatically configure Fingertip" loading="lazy"><span class="collage-caption"><b>2</b> Allow automatic setup</span></a>
+    <a class="collage-item tall" href="images/fingertip3.png"><img src="images/fingertip3.png" alt="Windows security warning to install the DNSSEC certificate" loading="lazy"><span class="collage-caption"><b>3</b> Trust its certificate</span></a>
+    <a class="collage-item" href="images/fingertip4.png"><img src="images/fingertip4.png" alt="Fingertip status page while the resolver is syncing" loading="lazy"><span class="collage-caption"><b>4</b> Wait while it syncs</span></a>
+    <a class="collage-item" href="images/fingertip5.png"><img src="images/fingertip5.png" alt="Fingertip status page showing the resolver is ready" loading="lazy"><span class="collage-caption"><b>5</b> Ready to resolve</span></a>
+    <a class="collage-item wide" href="images/fingertip6.png"><img src="images/fingertip6.png" alt="The belikebill Handshake site open in Firefox" loading="lazy"><span class="collage-caption"><b>6</b> Visit a Handshake site, i.e. https://belikebill/</span></a>
+  </div>
+</div>
+
+<h3 id="uninstalling">2. Uninstalling Fingertip</h3>
+
+<p>If you ever want to fully uninstall Fingertip-dit, there's a step-by-step guide, both for Windows and Linux, in the project's <a href="https://github.com/galetaire/fingertip-dit#uninstall" target="_blank" rel="noopener noreferrer">README</a>.</p>
 
 </div>
 <!-- Footer-->
 <div id="footer">
-  <script>document.write(new Date().getFullYear())</script> - You can fork this site on <a href="https://github.com/galetaire/homesite-hns" target="_blank">github.com/galetaire</a>.
+  Repository of the current site <a href="https://github.com/galetaire/homesite-hns" target="_blank">github.com/galetaire</a>. You can reach me by email at <a href="mailto:spainhousing@yeilmail.com">spainhousing@yeilmail.com</a>.
 </div>
 <script src="theme.js" defer></script>
+<script src="collage.js" defer></script>
 </body>
 </html>
