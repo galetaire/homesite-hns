@@ -790,6 +790,26 @@ td a:hover {
   padding: 0 4px 8px;
 }
 
+/* Slim link boxes that only take the width they need (bobwallet.html Discord links) */
+.contact-list.compact {
+  align-items: flex-start;
+  gap: 6px;
+}
+
+/* Small icons inside guides are not screenshots: no frame or spacing */
+.guide img.icon-inline {
+  display: inline;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.contact-list.compact li {
+  gap: 8px;
+  padding: 4px 12px;
+  font-size: 14px;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   html {
