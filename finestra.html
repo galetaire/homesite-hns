@@ -29,14 +29,14 @@
 
 <div class="intro">
   <img src="images/finestra-mark.png" alt="Finestra">
-  <p><b>Finestra</b> is a self-hosted <b>Handshake</b> explorer that runs on your <b>Umbrel</b>.</p>
+  <p><b>Finestra</b> is a self-hosted <b>Handshake</b> explorer that runs on your <b>Umbrel</b> and reads its data directly from your own Bob DNS full node.</p>
 </div>
 
 <div class="guide">
 <h2>How to explore Handshake from your Umbrel</h2>
 
 <blockquote>
-  <p><b>Note:</b> This guide does not cover how to obtain a HNS domain or coins, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, and a valid alternative to ICANN DNS.</p>
+  <p><b>Note:</b> <a href="https://umbrel.com/umbrelos" target="_blank" rel="noopener noreferrer"><b>UmbrelOS</b></a> is an open-source, Debian-based operating system designed to turn a computer, mini PC, Raspberry Pi or server into a user-friendly personal cloud and self-hosting hub. Its key features are a simple web interface easy to manage from your browser, and a plentiful <a href="https://apps.umbrel.com/" target="_blank" rel="noopener noreferrer"><b>App Store</b></a>.</p>
 </blockquote>
 
 <nav class="toc" aria-label="On this page">
@@ -51,13 +51,39 @@
 <h3 id="what-you-need">0. What you need</h3>
 
 <ul>
-  <li>A computer running Windows, MacOS, Linux or UmbrelOS.</li>
-  <li><a href="https://github.com/shadstoneofficial/bob-wallet/releases" target="_blank" rel="noopener noreferrer"><strong>Bob LearnHNS</strong></a> (Windows, MacOS, Linux) or <a href="https://github.com/galetaire/bob-dns" target="_blank" rel="noopener noreferrer"><strong>Bob DNS</strong></a> (umbrelOS).</li>
+  <li>A computer running <a href="https://umbrel.com/umbrelos" target="_blank" rel="noopener noreferrer"><b>UmbrelOS</b></a>.</li>
+  <li><a href="https://github.com/galetaire/bob-dns" target="_blank" rel="noopener noreferrer"><strong>Bob DNS</strong></a>, running a full node, preferably already fully synced.</li>
 </ul>
 
 <h3 id="installing-finestra">1. Installing Finestra</h3>
 
+<p>Before installing Finestra, you need to install Bob DNS, run it in full node mode and, ideally, wait until the node is fully synced. This is required because Finestra reads its data from the Bob DNS full node. Once these steps are done, installing Finestra is as simple as installing any other Umbrel app: go to <strong>App Store</strong> → <strong>Community App Stores</strong> → <strong>Manage</strong>, paste <code>https://github.com/galetaire/finestra</code> and install <strong>Finestra</strong>.</p>
+
+<div class="window">
+  <div class="window-bar">🪟 Finestra screenshots on Umbrel</div>
+  <div class="collage">
+    <a class="collage-item wide" href="images/finestra1.png"><img src="images/finestra1.png" alt="Finestra app page in the Umbrel community app store" loading="lazy"><span class="collage-caption"><b>1</b> Finestra community app available on Umbrel</span></a>
+    <a class="collage-item" href="images/bobdns2.png"><img src="images/bobdns2.png" alt="Umbrel App Store menu with Community App Stores, Manage and the Finestra store" loading="lazy"><span class="collage-caption"><b>2</b> Installing Finestra as a community app</span></a>
+  </div>
+</div>
+
 <h3 id="ecosystem">2. The umbrelOS Handshake ecosystem</h3>
+
+<p>Why umbrelOS? I find it to be one of the best ways to have a hub at home, not just for running Bitcoin or Handshake apps, but also for managing things like Nextcloud, Pi-hole and other apps that need to run 24/7, all with very low power consumption.</p>
+
+<p>Its convenience as a home server and how easy it is to port apps to it make it a perfect fit for the Handshake ecosystem. That's the main reason I started porting Handshake apps. These are the Handshake apps you can currently install on Umbrel:</p>
+
+<ul>
+  <li><strong>Bob DNS</strong>, a Handshake wallet and full node: <code><a href="https://github.com/galetaire/bob-dns" target="_blank" rel="noopener noreferrer">https://github.com/galetaire/bob-dns</a></code></li>
+  <li><strong>Finestra</strong>, a self-hosted Handshake explorer: <code><a href="https://github.com/galetaire/finestra" target="_blank" rel="noopener noreferrer">https://github.com/galetaire/finestra</a></code></li>
+  <li><strong>Castell</strong>, a website host with DANE support: <code><a href="https://github.com/galetaire/castell" target="_blank" rel="noopener noreferrer">https://github.com/galetaire/castell</a></code></li>
+</ul>
+
+<p>They aren't in the official App Store yet, but I'm gradually submitting them and hope they'll be published eventually. In the meantime, they're very easy to install as community apps.</p>
+
+<p>My plan is to keep bringing more Handshake apps to Umbrel, apps that help the project grow and contribute to a more sovereign internet. I encourage anyone who has a spare computer or Raspberry Pi (8 GB of RAM minimum recommended) to try Umbrel out and install these Handshake apps.</p>
+
+<p>If you have ideas for apps that would be good for Handshake, let me know and we can explore bringing them over together to grow the ecosystem.</p>
 </div>
 
 <!-- Footer-->
