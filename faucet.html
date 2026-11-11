@@ -32,11 +32,66 @@
   <p>An <b>HNS faucet</b> gives away small amounts of <b>Handshake</b> coins, so you can get started with the network before buying any.</p>
 </div>
 
-<p><small>This guide is a work in progress, more steps coming soon.</small></p>
+<div class="guide">
+<h2>Request your first HNS coins</h2>
+
+<blockquote>
+  <p><b>Note:</b> This faucet gives you 20 HNS, which is enough to get you started: bid on a name, win it, and then set up a site following any of the guides. If after testing you want to buy more coins, you can do so on <a href="https://neoxa.exchange/" target="_blank" rel="noopener noreferrer"><b>Neoxa</b></a>, a non-KYC exchange.</p>
+</blockquote>
+
+<nav class="toc" aria-label="On this page">
+  <b>On this page</b>
+  <ul>
+    <li><a href="#how-it-works">How it works</a></li>
+    <li><a href="#considerations">Some considerations</a></li>
+    <li><a href="#request">Request your HNS dust</a></li>
+  </ul>
+</nav>
+
+<h3 id="how-it-works">How it works</h3>
+
+<ul>
+  <li>You must have joined the <img src="images/discord-mark.png" class="icon-inline" width="18" alt=""> <a href="https://discord.gg/Q2HfjDGfz" target="_blank" rel="noopener noreferrer"><strong>Handshake DNS community</strong></a>, otherwise the transaction won't go through.</li>
+  <li>Once you've joined, fill in the form below with your <b>HNS address</b> and your <b>Discord username</b>.</li>
+  <li>If your Discord username is in the community's member list, your address will receive 20 HNS.</li>
+</ul>
+
+<h3 id="considerations">Some considerations</h3>
+
+<p>You must join the <a href="https://discord.gg/Q2HfjDGfz" target="_blank" rel="noopener noreferrer"><b>Handshake DNS Discord</b></a>, otherwise the coins will never be sent. Coins are sent in batches every 24 hours, after a human check. To prevent abuse of the faucet, each username and address can only be used once. Obviously, someone could use another person's username, but if I notice suspicious behaviour, or if the limit of 2,000 HNS per month is reached, I might change the process and ask users to send a DM to prove they control their Discord account. For now I don't think that's necessary, so it's better to keep things simple.</p>
+
+<h3 id="request">Request your HNS dust</h3>
+
+<p class="faucet-counter" id="faucet-counter" aria-live="polite" hidden></p>
+
+<form class="faucet-form" id="faucet-form" action="https://api.web3forms.com/submit" method="POST">
+  <input type="hidden" name="access_key" value="3f4f58be-e5bd-469f-a2f8-ee3c94ac8bf7">
+  <input type="hidden" name="subject" value="New Handshake faucet request">
+  <input type="hidden" name="from_name" value="Handshake faucet">
+  <input type="checkbox" name="botcheck" class="faucet-trap" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+  <label for="discord">Discord username</label>
+  <input id="discord" name="discord_username" type="text" required minlength="2" maxlength="32" pattern="[a-z0-9_.]{2,32}" placeholder="e.g. galetaire" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="discord-hint">
+  <small class="field-hint" id="discord-hint">2–32 characters: lowercase letters, numbers, _ and .</small>
+
+  <label for="address">Handshake address</label>
+  <input id="address" name="hns_address" type="text" required pattern="hs1[02-9ac-hj-np-z]{39}([02-9ac-hj-np-z]{20})?" placeholder="hs1q…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="address-hint">
+  <small class="field-hint" id="address-hint">The receiving address from your <a href="bobwallet.html">Bob Wallet</a>, starting with <code>hs1</code>.</small>
+
+  <button type="submit">Send request</button>
+  <p class="faucet-status" role="status" aria-live="polite"></p>
+</form>
+
+<p><small>Privacy: your details reach me by email through <a href="https://web3forms.com/" target="_blank" rel="noopener noreferrer">Web3Forms</a> and are only used to send you coins from this faucet.</small></p>
+</div>
+
 <!-- Footer-->
 <div id="footer">
   Repository of the current site <a href="https://github.com/galetaire/homesite-hns" target="_blank">github.com/galetaire</a>. You can reach me by email at <a href="mailto:spainhousing@yeilmail.com">spainhousing@yeilmail.com</a>.
 </div>
 <script src="theme.js" defer></script>
+<script src="collage.js" defer></script>
+<script src="sections.js" defer></script>
+<script src="faucet.js" defer></script>
 </body>
 </html>

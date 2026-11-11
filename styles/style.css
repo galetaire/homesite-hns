@@ -810,6 +810,128 @@ td a:hover {
   font-size: 14px;
 }
 
+/* Faucet request form (faucet.js) */
+.faucet-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 520px;
+  margin: 20px 0;
+  padding: 20px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.faucet-form label {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.faucet-form input[type="text"] {
+  width: 100%;
+  padding: 9px 12px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.faucet-form input[type="text"]:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.faucet-form input[type="text"]:user-invalid {
+  border-color: #dc2626;
+}
+
+.faucet-form .field-hint {
+  font-size: 12px;
+}
+
+.faucet-form .faucet-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 14px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.faucet-form .faucet-consent input {
+  margin-top: 5px;
+}
+
+.faucet-trap {
+  display: none;
+}
+
+.faucet-form button {
+  align-self: flex-start;
+  margin-top: 14px;
+  padding: 9px 20px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  background: #16a34a;
+  border: none;
+  border-radius: 999px;
+}
+
+.faucet-form button:hover {
+  background: #15803d;
+}
+
+.faucet-form button.empty,
+.faucet-form button.empty:hover,
+.faucet-form button.empty:disabled {
+  color: var(--text-muted);
+  cursor: not-allowed;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  opacity: 1;
+}
+
+.faucet-counter {
+  display: inline-block;
+  margin: 4px 0 0;
+  padding: 6px 14px;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.faucet-counter[hidden] {
+  display: none;
+}
+
+.faucet-form button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.faucet-status {
+  min-height: 1.4em;
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+
+.faucet-status.ok {
+  color: #16a34a;
+}
+
+.faucet-status.error {
+  color: #dc2626;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   html {

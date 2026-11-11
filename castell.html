@@ -39,21 +39,63 @@
   <p><b>Note:</b> This guide does not cover how to obtain a HNS domain or coins, and it does not recommend crypto investment whatsoever. Skepticism around blockchain projects is more often right than wrong, but I consider HNS DNS to be a decent exception, and a valid alternative to ICANN DNS.</p>
 </blockquote>
 
-<h3>What You Need</h3>
+<nav class="toc" aria-label="On this page">
+  <b>On this page</b>
+  <ul>
+    <li><a href="#what-you-need">0. What you need</a></li>
+    <li><a href="#installing-finestra">1. Installing Castell</a></li>
+  </ul>
+</nav>
+
+<h3 id="what-you-need">0. What you need</h3>
 
 <ul>
-  <li><a href="https://github.com/shadstoneofficial/bob-wallet/releases" target="_blank"><b>Bob wallet</b></a> or <a href="https://namebase.io/wallet" target="_blank"><b>Namebase wallet</b></a>, with your top-level domain (TLD) and at least 10 HNS coins</li>
-  <li>A <a href="https://dns.yeil.app" target="_blank"><b>Yeil DNS</b></a> account</li>
-  <li>A <b>GitHub</b> account</li>
+  <li>A computer running <a href="https://umbrel.com/umbrelos" target="_blank" rel="noopener noreferrer"><b>UmbrelOS</b></a>.</li>
+  <li><a href="https://github.com/shadstoneofficial/bob-wallet/releases" target="_blank" rel="noopener noreferrer"><b>Bob wallet</b></a> or <a href="https://namebase.io/wallet" target="_blank" rel="noopener noreferrer"><b>Namebase wallet</b></a>, with your top-level domain (TLD) and some HNS coins.</li>
+  <li>A <a href="https://dns.yeil.app" target="_blank" rel="noopener noreferrer"><b>Yeil DNS</b></a> account.</li>
+  <li>A <b>VPS</b>, not mandatory but higly recommended.</li>
 </ul>
 
+<h3 id="installing-finestra">1. Installing Castell</h3>
+
+<p>Before installing Finestra, you need to install Bob DNS, run it in full node mode and, ideally, wait until the node is fully synced. This is required because Finestra reads its data from the Bob DNS full node. Once these steps are done, installing Finestra is as simple as installing any other Umbrel app: go to <strong>App Store</strong> → <strong>Community App Stores</strong> → <strong>Manage</strong>, paste <code>https://github.com/galetaire/finestra</code> and install <strong>Finestra</strong>.</p>
+
+<h3 id="installing-finestra">1. Host a static website</h3>
+
+<h4 id="windows">Windows 🪟</h4>
+
+<p>Run <code>Fingertip-dit-0.0.4.msi</code>. Before you do:</p>
+
+<ul>
+  <li><strong>Quit old Fingertip first</strong> (tray icon → Quit), if you have an older version.</li>
+  <li>It's a per-user install into <code>%LOCALAPPDATA%\Fingertip</code> and needs no admin rights. It upgrades an existing Fingertip 0.0.3 in place.</li>
+  <li>The files aren't code-signed, so Microsoft Defender SmartScreen may warn: <strong>More info → Run anyway</strong>.</li>
+</ul>
+
+<div class="window">
+  <div class="window-bar">🪟 Fingertip-dit setup screenshots on Windows</div>
+  <div class="collage">
+    <a class="collage-item wide" href="images/fingertip1.png"><img src="images/fingertip1.png" alt="Fingertip-dit in the Windows start menu" loading="lazy"><span class="collage-caption"><b>1</b> Install and open Fingertip-dit</span></a>
+    <a class="collage-item" href="images/fingertip2.png"><img src="images/fingertip2.png" alt="Dialog asking to automatically configure Fingertip" loading="lazy"><span class="collage-caption"><b>2</b> Allow automatic setup</span></a>
+    <a class="collage-item tall" href="images/fingertip3.png"><img src="images/fingertip3.png" alt="Windows security warning to install the DNSSEC certificate" loading="lazy"><span class="collage-caption"><b>3</b> Trust its certificate</span></a>
+    <a class="collage-item" href="images/fingertip4.png"><img src="images/fingertip4.png" alt="Fingertip status page while the resolver is syncing" loading="lazy"><span class="collage-caption"><b>4</b> Wait while it syncs</span></a>
+    <a class="collage-item" href="images/fingertip5.png"><img src="images/fingertip5.png" alt="Fingertip status page showing the resolver is ready" loading="lazy"><span class="collage-caption"><b>5</b> Ready to resolve</span></a>
+    <a class="collage-item wide" href="images/fingertip6.png"><img src="images/fingertip6.png" alt="The belikebill Handshake site open in Firefox" loading="lazy"><span class="collage-caption"><b>6</b> Visit a Handshake site, e.g. https://belikebill/</span></a>
+  </div>
 </div>
 
+
+<h3 id="installing-finestra">1. Host a website using a VPS</h3>
+
+
+</div>
 
 <!-- Footer-->
 <div id="footer">
   Repository of the current site <a href="https://github.com/galetaire/homesite-hns" target="_blank">github.com/galetaire</a>. You can reach me by email at <a href="mailto:spainhousing@yeilmail.com">spainhousing@yeilmail.com</a>.
 </div>
 <script src="theme.js" defer></script>
+<script src="collage.js" defer></script>
+<script src="sections.js" defer></script>
 </body>
 </html>
