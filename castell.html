@@ -36,7 +36,8 @@
 <h2>How to Host an HTTPS website on a Handshake TLD</h2>
 
 <blockquote>
-  <p><b>Note:</b> ...</p>
+  <p><b>Note:</b> <a href="https://github.com/galetaire/castell" target="_blank" rel="noopener noreferrer"><b>Castell</b></a> is an app that creates the private key and certificate for your TLD, computes the TLSA record and configures the web server (using <a href="https://caddyserver.com/" target="_blank" rel="noopener noreferrer"><b>Caddy</b></a>). It gives you the records to add at your DNS host and the port-forwarding rule to set on your router. Finally, it stores and serves the files for your wesite.
+  </p>
 </blockquote>
 
 <nav class="toc" aria-label="On this page">
@@ -50,17 +51,71 @@
 <h3 id="what-you-need">0. What you need</h3>
 
 <ul>
-  <li>A computer running <a href="https://umbrel.com/umbrelos" target="_blank" rel="noopener noreferrer"><b>UmbrelOS</b></a>.</li>
+  <li>A computer running <a href="https://umbrel.com/umbrelos" target="_blank" rel="noopener noreferrer"><b>UmbrelOS</b></a>, with <a href="https://github.com/galetaire/castell" target="_blank" rel="noopener noreferrer"><b>Castell</b></a> installed.</li>
   <li><a href="https://github.com/shadstoneofficial/bob-wallet/releases" target="_blank" rel="noopener noreferrer"><b>Bob wallet</b></a> or <a href="https://namebase.io/wallet" target="_blank" rel="noopener noreferrer"><b>Namebase wallet</b></a>, with your top-level domain (TLD) and some HNS coins.</li>
   <li>A <a href="https://dns.yeil.app" target="_blank" rel="noopener noreferrer"><b>Yeil DNS</b></a> account.</li>
-  <li>A <b>VPS</b>, not mandatory but higly recommended.</li>
+  <li>A <b>VPS</b> (optional, but highly recommended).</li>
+  <li>A <a href="https://apps.umbrel.com/app/tailscale" target="_blank" rel="noopener noreferrer"><b>Tailscale</b></a> account and its Umbrel app (optional, but highly recommended).</li>
 </ul>
 
 <h3 id="installing-finestra">1. Installing Castell</h3>
 
-<p>Before ....</p>
+<p>Installing Castell is as simple as installing any other Umbrel community app: go to <strong>App Store</strong> → <strong>Community App Stores</strong> → <strong>Manage</strong>, paste <code>https://github.com/galetaire/castell</code> and install <strong>Castell</strong>.</p>
 
-<h3 id="installing-finestra">1. Host a static website</h3>
+<div class="window">
+  <div class="window-bar">🏰 Castell screenshots on Umbrel</div>
+  <div class="collage">
+    <a class="collage-item wide" href="images/castell1.png"><img src="images/castell1.png" alt="Castell app page in the Umbrel community app store" loading="lazy"><span class="collage-caption"><b>1</b> Castell community app available on Umbrel</span></a>
+    <a class="collage-item" href="images/bobdns2.png"><img src="images/bobdns2.png" alt="Umbrel App Store menu with Community App Stores, Manage and the Castell store" loading="lazy"><span class="collage-caption"><b>2</b> Installing Castell as a community app</span></a>
+  </div>
+</div>
+
+<h3 id="wallet">2. Wallet with a TLD and some coins</h3>
+
+<p>You'll need a TLD held in your own Bob Wallet or Namebase Wallet, plus a small amount of HNS (10 HNS is more than enough). If you're new to Handshake, you can get some HNS from the <a href="faucet.html"><strong>faucet</strong></a>.</p>
+
+<p>Once you have some HNS, you can bid on TLDs in name auctions using Bob or Namebase. Both are self-custodial wallets that let you take part in the auctions directly.</p>
+
+<h3 id="yeil-account">3. Yeil DNS account</h3>
+
+<p><a href="https://yeil.org/" target="_blank" rel="noopener noreferrer"><strong>Yeil DNS</strong></a> is a service that lets you point your self-custodied TLD to its nameservers, so you can manage your domain records without giving up custody of your TLD. At any time, you can use your wallet to remove the records that point your TLD to Yeil, ending the connection.</p>
+
+<h3 id="connect-bob-yeil">4. Connect your domain: Bob Wallet ↔ Yeil</h3>
+
+<p>You need to connect your TLD (in your wallet) to Yeil DNS. In your Yeil account, go to <b>New zone</b>, type the TLD name you own, and click <b>Add</b>. Once created it will appear the records you need to add to your TLD in Bob Wallet in order to create the connection.</p>
+
+<div class="window">
+  <div class="window-bar">🐦‍⬛ Yeil DNS: records for your zone</div>
+  <div class="collage">
+    <a class="collage-item wide" href="images/yeil1.png"><img src="images/yeil1.png" alt="Yeil DNS zone page showing the nameservers and DS record to add at your registrar" loading="lazy"><span class="collage-caption"><b>1</b> Copy the nameservers and the DS record from Yeil</span></a>
+  </div>
+</div>
+
+<p>In Bob Wallet, go to <b>Domain Manager</b> and click your TLD to open a new screen. In the <b>Records</b> section, add the records provided by Yeil:</p>
+
+<ul>
+  <li><b>2 NS records</b> — for example, <code>a.ns.yeil.org</code>, add a point <code>.</code> at the end if encountering errors <code>b.ns.yeil.org.</code></li>
+  <li><b>1 DS record</b> — using the value shown in your Yeil account</li>
+</ul>
+
+<div class="window">
+  <div class="window-bar">🐈‍⬛ Bob Wallet: Domain Manager</div>
+  <div class="collage">
+    <a class="collage-item wide" href="images/yeil2.png"><img src="images/yeil2.png" alt="Bob Wallet Domain Manager with the DS and NS records added" loading="lazy"><span class="collage-caption"><b>2</b> Add the records to your TLD and click Submit</span></a>
+  </div>
+</div>
+
+<p>Click <b>Submit</b> to save the changes. Updating takes roughly 10–20 minutes (the time for each block to be minted). After that, you should be able to see the new records on any HNS explorer, such as <a href="https://shakeshift.com" target="_blank" rel="noopener noreferrer"><b>Shakeshift</b></a>.</p>
+
+<h3 id="installing-finestra">5. Host a static website</h3>
+
+<p>At this point we can bifurcate the guide into two differen paths:</p>
+
+<ul>
+  <li><b>hostinc a static website opening your router port</b>. A few year this setup should be fine, but currently, with every week or so with critical bugs or exploits, this option can be use as a showcase, but the safer option unlesss you crealy now what you are doing is not open your router ports.</li>
+  <li><b>hosting a static website without opening ports, and using a VPS+Tailscale isntead</b>. This option adds an economis cost, as it is a vPS service, wichh can be obtained for $20-30/year, but is safer since you do not need to open ports.</li>
+</ul>
+
 
 <h4 id="windows">...</h4>
 
@@ -83,10 +138,6 @@
     <a class="collage-item wide" href="images/fingertip6.png"><img src="images/fingertip6.png" alt="The belikebill Handshake site open in Firefox" loading="lazy"><span class="collage-caption"><b>6</b> Visit a Handshake site, e.g. https://belikebill/</span></a>
   </div>
 </div>
-
-
-<h3 id="installing-finestra">1. Host a website using a VPS</h3>
-
 
 </div>
 
